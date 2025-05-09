@@ -3,10 +3,12 @@ require('dotenv').config();
 const path = require('path')
 const mongoose  = require('mongoose')
 const RentLoc = require('./models/rentloc')
+const methodOverride = require('method-override')
 
 const app = express();
 
 app.use(express.urlencoded({extended:true}))
+app.use(methodOverride('_method'))
 
 mongoose.connect(process.env.MONGODB_URL)
 
@@ -17,6 +19,9 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
+app.listen(3000,()=>{
+     console.log('Server Running on port 3000')
+})
 
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'views'))
@@ -43,12 +48,28 @@ app.post('/rentloc',async(req,res)=>{
     res.redirect(`rentloc/${newData._id}`)    
 })
 
+app.get('/rentloc/:id/edit',async(req,res)=>{
+    const {id} = req.params
+    const loc = await RentLoc.findById(id) 
+    res.render('rentloc/edit',{loc})
+})
+
 app.get('/rentloc/:id',async(req,res)=>{
     const {id} = req.params
     const rentPlace = await RentLoc.findById({_id:id})
     res.render('rentloc/show',{rentPlace})    
 })
 
-app.listen(3000,()=>{
-     console.log('Server Running on port 3000')
+
+app.put('/rentloc/:id',async(req,res)=>{
+    const {id} = req.params
+    const updatedData = await RentLoc.findByIdAndUpdate(id,{...req.body}.rentloc,{new:true})
+    console.log(updatedData)
+    res.redirect(`/rentloc/${updatedData._id}`)
+})
+
+app.delete('/rentloc/:id',async(req,res)=>{
+    const {id} = req.params
+    await RentLoc.findByIdAndDelete(id)
+    res.redirect('/rentloc')
 })

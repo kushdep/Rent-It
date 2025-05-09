@@ -7,6 +7,13 @@
 </head>
 <body>
     <h1><%=rentPlace.title%></h1>
-    <h1><%=rentPlace.location%></h1>
+    <h2><%=rentPlace.location%></h2>
+    <a href="/rentloc/<%= rentPlace.id%>/edit">Edit</a>
+    <form action="/rentloc/<%= rentPlace.id%>?_method=DELETE" method="POST">
+        <button>DELETE</button>
+    </form>
+    <footer>
+        <a href="/rentloc">All Rental Location</a>        
+    </footer>
 </body>
 </html>
