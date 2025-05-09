@@ -6,8 +6,9 @@ const RentLoc = require('./models/rentloc')
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URL)
+app.use(express.urlencoded({extended:true}))
 
+mongoose.connect(process.env.MONGODB_URL)
 
 const db = mongoose.connection;
 
@@ -25,10 +26,27 @@ app.get('/',(req,res)=>{
     res.render('home')
 })
 
-app.get('/makerentalloc',async(req,res)=>{
-    const  LocDtls = new RentLoc({title:'Villa', price:400, description:"villa for party"})
-    await LocDtls.save();
-    res.send(LocDtls)
+app.get('/rentloc',async(req,res)=>{
+    const rentLoc = await RentLoc.find({})
+    res.render('rentloc/index',{rentLoc})    
+})
+
+app.get('/rentloc/new',(req,res)=>{
+    res.render('rentloc/new')
+})
+
+
+app.post('/rentloc',async(req,res)=>{
+    const newData = new RentLoc(req.body.rentloc);
+    await newData.save()
+    console.log(newData._id)
+    res.redirect(`rentloc/${newData._id}`)    
+})
+
+app.get('/rentloc/:id',async(req,res)=>{
+    const {id} = req.params
+    const rentPlace = await RentLoc.findById({_id:id})
+    res.render('rentloc/show',{rentPlace})    
 })
 
 app.listen(3000,()=>{
