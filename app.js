@@ -1,13 +1,21 @@
 const express = require('express')
+require('dotenv').config();
 const path = require('path')
 const mongoose  = require('mongoose')
 const RentLoc = require('./models/rentloc')
 
 const app = express();
 
-mongoose.connect('mongodb+srv://kushdep017:bbcc12aa@cluster0.jdq4d08.mongodb.net/RENT_IT')
-.then(()=>{console.log("CONNECTED")})
-.catch(err=>console.log(err))
+mongoose.connect(process.env.MONGODB_URL)
+
+
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
+
 
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'views'))
