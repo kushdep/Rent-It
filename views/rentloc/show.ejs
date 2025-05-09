@@ -2,6 +2,8 @@
 
     <h1><%=rentPlace.title%></h1>
     <h2><%=rentPlace.location%></h2>
+    <img src="<%=rentPlace.image%>" alt="">
+    <p><%=rentPlace.description%></p>
     <a href="/rentloc/<%= rentPlace.id%>/edit">Edit</a>
     <form action="/rentloc/<%= rentPlace.id%>?_method=DELETE" method="POST">
         <button>DELETE</button>
