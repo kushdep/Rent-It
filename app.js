@@ -1,14 +1,17 @@
 const express = require('express')
 require('dotenv').config();
+const ejsMate = require('ejs-mate')
 const path = require('path')
 const mongoose  = require('mongoose')
 const RentLoc = require('./models/rentloc')
 const methodOverride = require('method-override')
+const morgan = require('morgan')
 
 const app = express();
 
 app.use(express.urlencoded({extended:true}))
 app.use(methodOverride('_method'))
+app.use(morgan('dev'))
 
 mongoose.connect(process.env.MONGODB_URL)
 
@@ -25,6 +28,7 @@ app.listen(3000,()=>{
 
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'views'))
+app.engine('ejs',ejsMate)
 
 
 app.get('/',(req,res)=>{
@@ -72,4 +76,9 @@ app.delete('/rentloc/:id',async(req,res)=>{
     const {id} = req.params
     await RentLoc.findByIdAndDelete(id)
     res.redirect('/rentloc')
+})
+
+
+app.use((req,res)=>{
+    res.status(404).send("404 NOT FOUND")
 })

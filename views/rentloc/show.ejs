@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%=rentPlace.title%></title>
-</head>
-<body>
+<% layout('layouts/boilerplate.ejs') %>
+
     <h1><%=rentPlace.title%></h1>
     <h2><%=rentPlace.location%></h2>
     <a href="/rentloc/<%= rentPlace.id%>/edit">Edit</a>
@@ -15,5 +9,3 @@
     <footer>
         <a href="/rentloc">All Rental Location</a>        
     </footer>
-</body>
-</html>
