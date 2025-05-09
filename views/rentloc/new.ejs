@@ -1,16 +1,39 @@
 <% layout('layouts/boilerplate') %>
+<div class="row">
+    <h1 class="text-center">New Rental Location</h1>
+    <div class="col-6 offset-3">
+        <form action="/rentloc" method="POST">
+            <div>
+                <label class="form-label" for="title">Title :</label>
+                <input class="form-control" type="text" id="title" name="rentloc[title]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location :</label>
+                <input class="form-control" type="text" id="location" name="rentloc[location]">
+            </div>
+            <div>
+                <label for="formFile" class="form-label">Image :</label>
+                <input class="form-control" type="text" id="image" name="rentloc[image]">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price :</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" id="price" class="form-control" placeholder="0.00"  aria-label="price-label" name="rentloc[price]">
+                    <span class="input-group-text" id="price-label">.00</span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description :</label>
+                <textarea class="form-control" type="text" id="description" name="rentloc[description]"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">ADD</button>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">Back</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-    <form action="/rentloc" method="POST">
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="rentloc[title]">
-        </div>
-        <div>
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="rentloc[location]">
-        </div>
-        <button>ADD</button>
-    </form>
-    <form action="/rentloc">
-        <button>Back</button>
-    </form>
