@@ -2,30 +2,30 @@
 <div class="row">
     <h1 class="text-center">New Rental Location</h1>
     <div class="col-6 offset-3">
-        <form action="/rentloc" method="POST">
+        <form action="/rentloc" method="POST" novalidate class="validated-form">
             <div>
                 <label class="form-label" for="title">Title :</label>
-                <input class="form-control" type="text" id="title" name="rentloc[title]">
+                <input class="form-control" type="text" id="title" name="rentloc[title]" required>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location :</label>
-                <input class="form-control" type="text" id="location" name="rentloc[location]">
+                <input class="form-control" type="text" id="location" name="rentloc[location]" required>
             </div>
             <div>
                 <label for="formFile" class="form-label">Image :</label>
-                <input class="form-control" type="text" id="image" name="rentloc[image]">
+                <input class="form-control" type="text" id="image" name="rentloc[image]" required>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Price :</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input type="text" id="price" class="form-control" placeholder="0.00"  aria-label="price-label" name="rentloc[price]">
+                    <input type="text" id="price" class="form-control" placeholder="0.00"  aria-label="price-label" name="rentloc[price]" required>
                     <span class="input-group-text" id="price-label">.00</span>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description :</label>
-                <textarea class="form-control" type="text" id="description" name="rentloc[description]"></textarea>
+                <textarea class="form-control" type="text" id="description" name="rentloc[description]" required></textarea>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">ADD</button>
@@ -37,3 +37,21 @@
     </div>
 </div>
 
+<script>
+    (
+        function(){
+            'use strict'
+            const forms = document.querySelectorAll(".validated-form")
+
+            Array.from(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit',function(event){
+                    if(!form.checkValidity()){
+                        event.preventDefault()
+                        event.stopPropogation()
+                    }
+                    form.classList.add('wasValidated')
+                },false)
+            });
+        })()
+</script>
