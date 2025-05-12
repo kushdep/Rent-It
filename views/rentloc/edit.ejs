@@ -2,30 +2,36 @@
 <div class="row">
     <h1 class="text-center">New Rental Location</h1>
     <div class="col-6 offset-3">
-        <form action="/rentloc/<%= loc._id%>?_method=PUT" method="POST">
+        <form action="/rentloc/<%= loc._id%>?_method=PUT" method="POST" novalidate class="validated-form">
             <div>
                 <label class="form-label" for="title">Title :</label>
-                <input class="form-control" type="text" id="title" name="rentloc[title]"  value="<%=loc.title%>">
+                <input class="form-control" type="text" id="title" name="rentloc[title]"  value="<%=loc.title%>" required>
+                <div class="valid-feedback"> Looks Good!</div>
+
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location :</label>
-                <input class="form-control" type="text" id="location" name="rentloc[location]"  value="<%=loc.location%>">
+                <input class="form-control" type="text" id="location" name="rentloc[location]"  value="<%=loc.location%>" required>
+            <div class="valid-feedback"> Looks Good!</div>
             </div>
             <div>
                 <label for="formFile" class="form-label">Image :</label>
-                <input class="form-control" type="text" id="image" name="rentloc[image]" value="<%= loc.image%>">
+                <input class="form-control" type="text" id="image" name="rentloc[image]" value="<%= loc.image%>" required>
+                <div class="valid-feedback"> Looks Good!</div>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Price :</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input type="text" id="price" class="form-control" placeholder="0.00"  aria-label="price-label" name="rentloc[price]" value="<%= loc.price%>">
+                    <input type="text" id="price" class="form-control" placeholder="0.00"  aria-label="price-label" name="rentloc[price]" value="<%= loc.price%>" required>
                     <span class="input-group-text" id="price-label">.00</span>
+                    <div class="valid-feedback"> Looks Good!</div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description :</label>
-                <textarea class="form-control" type="text" id="description" name="rentloc[description]"><%= loc.description%></textarea>
+                <textarea class="form-control" type="text" id="description" name="rentloc[description]" required><%= loc.description%></textarea>
+                <div class="valid-feedback"> Looks Good!</div>
             </div>
             <div class="mb-3">
                 <form action="/rentloc/<%= loc._id%>">
