@@ -6,6 +6,9 @@ const mongoose  = require('mongoose')
 const RentLoc = require('./models/rentloc')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
+const ExpressError = require('./utils/ExpressError')
+const catchAsync =  require('./utils/catchAsync')
+const {rentLocationSchema} = require('./schemas')
 
 const app = express();
 
@@ -29,56 +32,71 @@ app.listen(3000,()=>{
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'views'))
 app.engine('ejs',ejsMate)
-
+ 
+const validateRentalLocation = (req,res,next)=>{
+    const {error} = rentLocationSchema.validate(req.body)
+    if(error){
+        const msg = error.details.map(e=>e.message).join(',')
+        throw new ExpressError(msg,400) 
+    }else{
+        next()
+    }
+}
 
 app.get('/',(req,res)=>{
     res.render('home')
 })
 
-app.get('/rentloc',async(req,res)=>{
+app.get('/rentloc',catchAsync(async(req,res)=>{
     const rentLoc = await RentLoc.find({})
     res.render('rentloc/index',{rentLoc})    
-})
+}))
 
 app.get('/rentloc/new',(req,res)=>{
     res.render('rentloc/new')
 })
 
 
-app.post('/rentloc',async(req,res)=>{
+app.post('/rentloc',validateRentalLocation,catchAsync(async(req,res)=>{
     const newData = new RentLoc(req.body.rentloc);
     await newData.save()
     console.log(newData._id)
-    res.redirect(`rentloc/${newData._id}`)    
-})
+    res.redirect  (`rentloc/${newData._id}`)    
+}))
 
-app.get('/rentloc/:id/edit',async(req,res)=>{
+app.get('/rentloc/:id/edit',catchAsync(async(req,res)=>{
     const {id} = req.params
     const loc = await RentLoc.findById(id) 
     res.render('rentloc/edit',{loc})
-})
+}))
 
-app.get('/rentloc/:id',async(req,res)=>{
+app.get('/rentloc/:id',catchAsync(async(req,res)=>{
     const {id} = req.params
     const rentPlace = await RentLoc.findById({_id:id})
     res.render('rentloc/show',{rentPlace})    
-})
+}))
 
 
-app.put('/rentloc/:id',async(req,res)=>{
+app.put('/rentloc/:id',validateRentalLocation,catchAsync(async(req,res)=>{
     const {id} = req.params
     const updatedData = await RentLoc.findByIdAndUpdate(id,{...req.body}.rentloc,{new:true})
     console.log(updatedData)
     res.redirect(`/rentloc/${updatedData._id}`)
-})
+}))
 
-app.delete('/rentloc/:id',async(req,res)=>{
+app.delete('/rentloc/:id',catchAsync(async(req,res)=>{
     const {id} = req.params
     await RentLoc.findByIdAndDelete(id)
     res.redirect('/rentloc')
+}))
+
+app.all(/(.*)/,(req,res,next)=>{
+    next(new ExpressError('PAGE NOT FOUND',404))
 })
 
-
-app.use((req,res)=>{
-    res.status(404).send("404 NOT FOUND")
+//Catch all for any error
+app.use((err,req,res,next)=>{
+    const {status=500} = err
+    if(!err.message) err.message='Something Went Wrong'
+    res.status(status).render('error',{err})
 })
