@@ -26,6 +26,7 @@ router.post(
         rentloc.reviews.push(review);
         await review.save();
         await rentloc.save();
+        req.flash('success','Successfully created a new review')
         res.redirect(`/rentloc/${rentloc._id}`);
     })
 );
@@ -36,6 +37,7 @@ router.delete(
         const { id, reviewId } = req.params;
         await RentLoc.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
         await Review.findByIdAndDelete(reviewId);
+        req.flash('success','Successfully Deleted review')
         res.redirect(`/rentloc/${id}`);
     })
 );
