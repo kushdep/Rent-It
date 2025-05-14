@@ -4,6 +4,7 @@ const ExpressError = require("../utils/ExpressError");
 const catchAsync = require("../utils/catchAsync");
 const RentLoc = require("../models/rentloc");
 const { rentLocationSchema } = require("../schemas");
+const { isLoggedIn } = require('../middleware')
 
 const validateRentalLocation = (req, res, next) => {
   const { error } = rentLocationSchema.validate(req.body);
@@ -24,12 +25,13 @@ router.get(
   })
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("rentloc/new");
 });
 
 router.post(
   "/",
+  isLoggedIn,
   validateRentalLocation,
   catchAsync(async (req, res) => {
     const newData = new RentLoc(req.body.rentloc);
@@ -54,6 +56,7 @@ router.get(
 
 router.get(
   "/:id/edit",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const loc = await RentLoc.findById(id);
@@ -67,6 +70,7 @@ router.get(
 
 router.put(
   "/:id",
+  isLoggedIn,
   validateRentalLocation,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -81,6 +85,7 @@ router.put(
 
 router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await RentLoc.findByIdAndDelete(id);
