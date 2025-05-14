@@ -3,7 +3,7 @@
   <h1 class="text-center">New Rental Location</h1>
   <div class="col-6 offset-3">
     <form
-      action="/rentloc/<%= loc._id%>?_method=PUT"
+      action="/rentloc/<%= rentloc._id%>?_method=PUT"
       method="POST"
       novalidate
       class="validated-form"
@@ -15,7 +15,7 @@
           type="text"
           id="title"
           name="rentloc[title]"
-          value="<%=loc.title%>"
+          value="<%=rentloc.title%>"
           required
         />
         <div class="valid-feedback">Looks Good!</div>
@@ -27,7 +27,7 @@
           type="text"
           id="location"
           name="rentloc[location]"
-          value="<%=loc.location%>"
+          value="<%=rentloc.location%>"
           required
         />
         <div class="valid-feedback">Looks Good!</div>
@@ -39,7 +39,7 @@
           type="text"
           id="image"
           name="rentloc[image]"
-          value="<%= loc.image%>"
+          value="<%= rentloc.image%>"
           required
         />
         <div class="valid-feedback">Looks Good!</div>
@@ -55,7 +55,7 @@
             placeholder="0.00"
             aria-label="price-label"
             name="rentloc[price]"
-            value="<%= loc.price%>"
+            value="<%= rentloc.price%>"
             required
           />
           <span class="input-group-text" id="price-label">.00</span>
@@ -71,18 +71,18 @@
           name="rentloc[description]"
           required
         >
-<%= loc.description%></textarea
+<%= rentloc.description%></textarea
         >
         <div class="valid-feedback">Looks Good!</div>
       </div>
       <div class="mb-3">
-        <form action="/rentloc/<%= loc._id%>">
+        <form action="/rentloc/<%= rentloc._id%>">
           <button class="btn btn-success">Save</button>
         </form>
       </div>
     </form>
     <div class="mb-3">
-      <form action="/rentloc/<%= loc._id%>">
+      <form action="/rentloc/<%= rentloc._id%>">
         <button class="btn btn-primary">Back</button>
       </form>
     </div>
