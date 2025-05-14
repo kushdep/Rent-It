@@ -8,9 +8,13 @@ const morgan = require("morgan");
 const ExpressError = require("./utils/ExpressError");
 const RentLocRoutes = require('./routes/rentloc')
 const ReviewRoutes = require('./routes/review')
+const UserRoutes = require('./routes/users')
 const session = require('express-session')
 const flash = require('connect-flash')
 const app = express();
+const passport = require('passport')
+const LocalStratergy = require('passport-local')
+const User = require('./models/user')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -46,6 +50,14 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig))
 app.use(flash())
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(new LocalStratergy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
 app.use((req, res, next) => {
   res.locals.success = req.flash('success')
   res.locals.error = req.flash('error')
@@ -53,8 +65,8 @@ app.use((req, res, next) => {
 })
 
 
+app.use('/',UserRoutes)
 app.use('/rentloc', RentLocRoutes)
-
 app.use('/rentloc/:id/review', ReviewRoutes)
 
 app.get("/", (req, res) => {
