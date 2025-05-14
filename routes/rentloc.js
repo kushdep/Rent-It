@@ -34,7 +34,7 @@ router.post(
   catchAsync(async (req, res) => {
     const newData = new RentLoc(req.body.rentloc);
     await newData.save();
-    req.flash('success','Successfully made a new rental location')
+    req.flash('success', 'Successfully made a new rental location')
     res.redirect(`rentloc/${newData._id}`);
   })
 );
@@ -44,8 +44,8 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const rentPlace = await RentLoc.findById({ _id: id }).populate("reviews");
-    if(!rentPlace){
-      req.flash('error',"Cannot Get Rental Location")
+    if (!rentPlace) {
+      req.flash('error', "Cannot Get Rental Location")
       return res.redirect('/rentloc')
     }
     res.render("rentloc/show", { rentPlace });
@@ -57,8 +57,8 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const loc = await RentLoc.findById(id);
-    if(!loc){
-      req.flash('error',"Cannot Get Rental Location")
+    if (!loc) {
+      req.flash('error', "Cannot Get Rental Location")
       return res.redirect('/rentloc')
     }
     res.render("rentloc/edit", { loc });
@@ -75,7 +75,7 @@ router.put(
       { ...req.body }.rentloc,
       { new: true }
     );
-    req.flash('success',"Successfully updated location")
+    req.flash('success', "Successfully updated location")
     res.redirect(`/rentloc/${updatedData._id}`);
   }));
 
@@ -84,7 +84,7 @@ router.delete(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await RentLoc.findByIdAndDelete(id);
-    req.flash('success','Successfully Deleted rental location')
+    req.flash('success', 'Successfully Deleted rental location')
     res.redirect("/rentloc");
   })
 );
