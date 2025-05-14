@@ -1,20 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const ExpressError = require("../utils/ExpressError");
 const catchAsync = require("../utils/catchAsync");
 const RentLoc = require("../models/rentloc");
-const { rentLocationSchema } = require("../schemas");
-const { isLoggedIn } = require('../middleware')
+const { isLoggedIn, validateRentalLocation, isAuthor } = require('../middleware')
 
-const validateRentalLocation = (req, res, next) => {
-  const { error } = rentLocationSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((e) => e.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
 
 
 router.get(
@@ -35,6 +24,7 @@ router.post(
   validateRentalLocation,
   catchAsync(async (req, res) => {
     const newData = new RentLoc(req.body.rentloc);
+    newData.author = req.user._id
     await newData.save();
     req.flash('success', 'Successfully made a new rental location')
     res.redirect(`rentloc/${newData._id}`);
@@ -45,7 +35,10 @@ router.get(
   "/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const rentPlace = await RentLoc.findById({ _id: id }).populate("reviews");
+    const rentPlace = await RentLoc.findById({ _id: id }).populate({
+      path: "reviews",
+      populate: { path: 'author' }
+    }).populate('author')
     if (!rentPlace) {
       req.flash('error', "Cannot Get Rental Location")
       return res.redirect('/rentloc')
@@ -57,14 +50,15 @@ router.get(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const loc = await RentLoc.findById(id);
-    if (!loc) {
+    const rentloc = await RentLoc.findById(id);
+    if (!rentloc) {
       req.flash('error', "Cannot Get Rental Location")
       return res.redirect('/rentloc')
     }
-    res.render("rentloc/edit", { loc });
+    res.render("rentloc/edit", { rentloc });
   }));
 
 
@@ -86,6 +80,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await RentLoc.findByIdAndDelete(id);
