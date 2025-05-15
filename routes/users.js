@@ -3,47 +3,18 @@ const passport = require('passport')
 const router = express.Router()
 const CatchAsync = require('../utils/catchAsync')
 const User = require('../models/user')
-const { storeReturnTo } = require('../middleware')
+const { storeReturnTo, isLoggedIn } = require('../middleware')
+const userController = require('../controllers/users')
 
-router.get('/register', async (req, res) => {
-  res.render('users/register')
-})
+router.get('/register', userController.registerForm)
 
-router.post('/register', CatchAsync(async (req, res) => {
-  try {
-    const { email, username, password } = req.body
-    const user = new User({ email, username })
-    const registeredUser = await User.register(user, password)
-    req.login(registeredUser, (err) => {
-      if (err) {
-        return next(err)
-      }
-      req.flash('success', 'Welcome to RENT-IT')
-      res.redirect('/rentloc')
-    })
-  } catch (error) {
-    req.flash('error', error.message)
-    res.redirect('register')
-  }
-}))
+router.post('/register', CatchAsync(userController.registerUser))
 
-router.get('/login', (req, res) => {
-  res.render('users/login')
-})
+router.get('/login', userController.loginForm)
 
-router.get('/logout', (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    req.flash('success', 'Goodbye!');
-    res.redirect('/rentloc');
-  });
-});
+router.get('/logout', isLoggedIn, userController.logoutUser);
 
-router.post('/login', storeReturnTo, passport.authenticate('local', { failureflash: true, failureRedirect: '/login' }), (req, res) => {
-  const redirectUrl = res.locals.returnTo || '/rentloc'
-  res.redirect(redirectUrl)
-})
+router.post('/login', storeReturnTo, passport.authenticate('local', { failureflash: true, failureRedirect: '/login', }), userController.loginUser
+)
 
 module.exports = router
