@@ -65,7 +65,7 @@ app.use((req, res, next) => {
   next();
 })
 
-
+// app.use(()=>console.log('Cloudinary name:', process.env.CLOUDINARY_NAME))
 app.use('/', UserRoutes)
 app.use('/rentloc', RentLocRoutes)
 app.use('/rentloc/:id/review', ReviewRoutes)

@@ -1,8 +1,19 @@
 <% layout('layouts/boilerplate') %>
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+<div
+  class="container d-flex justify-content-center align-items-center"
+  style="min-height: 80vh"
+>
   <div class="col-md-8 col-lg-6 p-4 rounded shadow bg-light">
-    <h2 class="text-center mb-4 text-success fw-bold">Add a New Rental Location</h2>
-    <form action="/rentloc" method="POST" novalidate class="validated-form">
+    <h2 class="text-center mb-4 text-success fw-bold">
+      Add a New Rental Location
+    </h2>
+    <form
+      action="/rentloc"
+      method="POST"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3">
         <label class="form-label fw-semibold" for="title">Title</label>
         <input
@@ -27,7 +38,14 @@
         />
         <div class="valid-feedback">Looks Good!</div>
       </div>
-      <div class="mb-3">
+      <input
+        class="form-control btn btn-outline-success"
+        type="file"
+        name="image"
+        id=""
+        multiple
+      />
+      <!-- <div class="mb-3">
         <label for="image" class="form-label fw-semibold">Image URL</label>
         <input
           class="form-control"
@@ -38,7 +56,7 @@
           required
         />
         <div class="valid-feedback">Looks Good!</div>
-      </div>
+      </div> -->
       <div class="mb-3">
         <label for="price" class="form-label fw-semibold">Price</label>
         <div class="input-group">
@@ -58,7 +76,9 @@
         <div class="valid-feedback">Looks Good!</div>
       </div>
       <div class="mb-3">
-        <label class="form-label fw-semibold" for="description">Description</label>
+        <label class="form-label fw-semibold" for="description"
+          >Description</label
+        >
         <textarea
           class="form-control"
           id="description"
@@ -72,7 +92,9 @@
       <button class="btn btn-success w-100 fw-semibold">Add Location</button>
     </form>
     <div class="text-center mt-3">
-      <a href="/rentloc" class="btn btn-outline-primary w-100">Back to Listings</a>
+      <a href="/rentloc" class="btn btn-outline-primary w-100"
+        >Back to Listings</a
+      >
     </div>
   </div>
 </div>

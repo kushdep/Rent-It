@@ -3,6 +3,10 @@ const RentLoc = require("../models/rentloc");
 
 module.exports.index = async (req, res) => {
   const rentLoc = await RentLoc.find({});
+  const rentLocById = await RentLoc.findById('682601e42a1eb51301774aab');
+  console.log(rentLocById)
+  console.log('rentLocID.images' + rentLocById.images)
+  console.log('rentLocID[0].images' + rentLocById.images[0])
   res.render("rentloc/index", { rentLoc });
 }
 
@@ -12,6 +16,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createRentalLoc = async (req, res) => {
   const newData = new RentLoc(req.body.rentloc);
+  newData.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
   newData.author = req.user._id
   await newData.save();
   req.flash('success', 'Successfully made a new rental location')

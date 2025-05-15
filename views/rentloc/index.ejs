@@ -8,10 +8,9 @@
     <div class="col-md-6 col-lg-4">
       <div class="position-relative overflow-hidden rounded-4 shadow-lg border-0 bg-white h-100 location-card">
         <img
-          src="<%= loc.image %>"
+          src="<%= loc.images && loc.images[0] && loc.images[0].url %>"
           alt="<%= loc.title %>"
           class="img-fluid w-100"
-          style="height: 230px; object-fit: cover; border-top-left-radius:1rem; border-top-right-radius:1rem;"
         />
         <div
           class="position-absolute top-0 end-0 m-2 px-3 py-1 bg-success text-white rounded-pill shadow-sm"

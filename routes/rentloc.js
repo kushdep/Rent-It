@@ -1,16 +1,21 @@
 const express = require('express')
 const router = express.Router()
 const catchAsync = require("../utils/catchAsync");
-const RentLoc = require("../models/rentloc");
 const { isLoggedIn, validateRentalLocation, isAuthor } = require('../middleware')
 const rentLocController = require('../controllers/rentloc')
+const { storage } = require('../cloudinary')
+const multer = require("multer");
+const upload = multer({ storage })
 
 router.route('/')
   .get(catchAsync(rentLocController.index))
   .post(isLoggedIn,
     validateRentalLocation,
+    upload.array('image'),
     catchAsync(rentLocController.createRentalLoc)
   );
+
+
 
 router.get("/new", isLoggedIn, rentLocController.renderNewForm);
 
