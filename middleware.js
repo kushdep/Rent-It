@@ -55,7 +55,7 @@ module.exports.validateReview = (req, res, next) => {
 
 
 module.exports.isReviewAuthor = async (req, res, next) => {
-  const { id,reviewId } = req.params;
+  const { id, reviewId } = req.params;
   const review = await Review.findById(reviewId)
   if (!review.author.equals(req.user._id)) {
     req.flash('error', "You are not allowed to do this")

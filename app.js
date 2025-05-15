@@ -66,7 +66,7 @@ app.use((req, res, next) => {
 })
 
 
-app.use('/',UserRoutes)
+app.use('/', UserRoutes)
 app.use('/rentloc', RentLocRoutes)
 app.use('/rentloc/:id/review', ReviewRoutes)
 

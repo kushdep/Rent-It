@@ -1,6 +1,8 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Rent-IT</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3 text-warning letter-spacing-1" href="/"
+      >Rent-IT</a
+    >
     <button
       class="navbar-toggler"
       type="button"
@@ -13,31 +15,66 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/rentloc">Home</a>
+          <a
+            class="nav-link px-4 py-2 rounded-pill text-light nav-hover fw-semibold"
+            href="/rentloc"
+            >Home</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/rentloc">Rental Locations</a>
+          <a
+            class="nav-link px-4 py-2 rounded-pill text-light nav-hover fw-semibold"
+            href="/rentloc"
+            >Rental Locations</a
+          >
         </li>
-        <li>
-          <a class="nav-link" aria-current="page" href="/rentloc/new">Add Location</a>
+        <li class="nav-item">
+          <a
+            class="nav-link px-4 py-2 rounded-pill text-light nav-hover fw-semibold"
+            href="/rentloc/new"
+            >Add Location</a
+          >
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
         <% if(currentUser){ %>
-          <li class="nav-item">
-            <a class="btn btn-danger me-2" aria-current="page" href="/logout">Logout</a>
-          </li>
+        <li class="nav-item d-flex align-items-center">
+          <a
+            class="btn btn-danger btn-sm px-3 rounded-pill fw-semibold"
+            href="/logout"
+            >Logout</a
+          >
+        </li>
         <% } else { %>
-          <li class="nav-item">
-            <a class="btn btn-success me-2" aria-current="page" href="/login">Log In</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-primary" aria-current="page" href="/register">Register</a>
-          </li>
+        <li class="nav-item">
+          <a
+            class="btn btn-success btn-sm px-3 rounded-pill me-2 fw-semibold"
+            href="/login"
+            >Log In</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="btn btn-info btn-sm px-3 rounded-pill fw-semibold"
+            href="/register"
+            >Register</a
+          >
+        </li>
         <% } %>
       </ul>
     </div>
   </div>
 </nav>
+<style>
+  .nav-hover:hover,
+  .nav-link.active {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffc107 !important;
+    transition: background 0.2s, color 0.2s;
+  }
+  .letter-spacing-1 {
+    letter-spacing: 2px;
+  }
+</style>

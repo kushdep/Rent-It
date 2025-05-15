@@ -9,7 +9,7 @@
           src="<%= rentPlace.image %>"
           class="card-img-top rounded-top"
           alt="<%= rentPlace.title %>"
-          style="height: 300px; object-fit: cover;"
+          style="height: 300px; object-fit: cover"
         />
         <div class="card-body text-center">
           <h3 class="card-title mb-3"><%= rentPlace.title %></h3>
@@ -28,7 +28,11 @@
         </ul>
         <% if (currentUser && rentPlace.author.equals(currentUser._id)) { %>
         <div class="card-body d-flex justify-content-between">
-          <a href="/rentloc/<%= rentPlace.id %>/edit" class="btn btn-info btn-sm">Edit</a>
+          <a
+            href="/rentloc/<%= rentPlace.id %>/edit"
+            class="btn btn-info btn-sm"
+            >Edit</a
+          >
           <form
             action="/rentloc/<%= rentPlace.id %>?_method=DELETE"
             method="POST"
@@ -66,7 +70,6 @@
             id="rating"
             oninput="document.getElementById('ratingValue').innerText = this.value"
           />
-          
         </div>
         <div class="mb-3">
           <label class="form-label" for="body">Review</label>
@@ -92,9 +95,12 @@
           <div class="card shadow-sm h-100 border-0">
             <div class="card-body">
               <h5 class="card-title">Rating: <%= review.rating %> ⭐</h5>
-              <p class="card-subtitle text-muted mb-2">By <%= review.author.username %></p>
+              <p class="card-subtitle text-muted mb-2">
+                By <%= review.author.username %>
+              </p>
               <p class="card-text"><%= review.body %></p>
-              <% if (currentUser && rentPlace.author.equals(currentUser._id)) { %>
+              <% if (currentUser && rentPlace.author.equals(currentUser._id)) {
+              %>
               <form
                 action="/rentloc/<%= rentPlace.id %>/review/<%= review._id %>?_method=DELETE"
                 method="POST"
