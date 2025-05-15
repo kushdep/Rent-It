@@ -2,19 +2,18 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 const CatchAsync = require('../utils/catchAsync')
-const User = require('../models/user')
 const { storeReturnTo, isLoggedIn } = require('../middleware')
 const userController = require('../controllers/users')
 
-router.get('/register', userController.registerForm)
+router.route('/register')
+    .get(userController.registerForm)
+    .post(CatchAsync(userController.registerUser))
 
-router.post('/register', CatchAsync(userController.registerUser))
-
-router.get('/login', userController.loginForm)
+router.route('/login')
+    .get(userController.loginForm)
+    .post(storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login', }), userController.loginUser
+    )
 
 router.get('/logout', isLoggedIn, userController.logoutUser);
-
-router.post('/login', storeReturnTo, passport.authenticate('local', { failureflash: true, failureRedirect: '/login', }), userController.loginUser
-)
 
 module.exports = router

@@ -5,43 +5,32 @@ const RentLoc = require("../models/rentloc");
 const { isLoggedIn, validateRentalLocation, isAuthor } = require('../middleware')
 const rentLocController = require('../controllers/rentloc')
 
-
-
-router.get("/", catchAsync(rentLocController.index));
+router.route('/')
+  .get(catchAsync(rentLocController.index))
+  .post(isLoggedIn,
+    validateRentalLocation,
+    catchAsync(rentLocController.createRentalLoc)
+  );
 
 router.get("/new", isLoggedIn, rentLocController.renderNewForm);
 
-router.post(
-  "/",
-  isLoggedIn,
-  validateRentalLocation,
-  catchAsync(rentLocController.createRentalLoc)
-);
-
-router.get(
-  "/:id",
-  catchAsync(rentLocController.showRentalLoc)
-);
+router.route('/:id')
+  .get(
+    catchAsync(rentLocController.showRentalLoc))
+  .delete(
+    isLoggedIn,
+    isAuthor,
+    catchAsync(rentLocController.deleteRentalLoc)
+  )
+  .put(
+    isLoggedIn,
+    validateRentalLocation,
+    catchAsync(rentLocController.updateRenatlLoc));
 
 router.get(
   "/:id/edit",
   isLoggedIn,
   isAuthor,
   catchAsync(rentLocController.editRentalLoc));
-
-
-router.put(
-  "/:id",
-  isLoggedIn,
-  validateRentalLocation,
-  catchAsync(rentLocController.updateRenatlLoc));
-
-router.delete(
-  "/:id",
-  isLoggedIn,
-  isAuthor,
-  catchAsync(rentLocController.deleteRentalLoc)
-);
-
 
 module.exports = router

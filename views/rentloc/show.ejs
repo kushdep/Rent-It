@@ -1,28 +1,37 @@
 <% layout('layouts/boilerplate.ejs') %>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
 
 <div class="container mt-5">
-  <div class="row">
+  <div class="row gy-5">
     <!-- Rental Details Section -->
     <div class="col-md-6">
-      <div class="card shadow-lg border-0">
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <img
           src="<%= rentPlace.image %>"
-          class="card-img-top rounded-top"
+          class="card-img-top"
           alt="<%= rentPlace.title %>"
           style="height: 300px; object-fit: cover"
         />
         <div class="card-body text-center">
-          <h3 class="card-title mb-3"><%= rentPlace.title %></h3>
-          <p class="card-text text-muted"><%= rentPlace.description %></p>
+          <h3
+            class="card-title mb-2 text-success fw-bold"
+            style="letter-spacing: 1px"
+          >
+            <%= rentPlace.title %>
+          </h3>
+          <p class="card-text text-muted mb-3"><%= rentPlace.description %></p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i>
             <strong>Location:</strong> <%= rentPlace.location %>
           </li>
           <li class="list-group-item">
+            <i class="bi bi-person-circle text-primary me-1"></i>
             <strong>Author:</strong> <%= rentPlace.author.username %>
           </li>
           <li class="list-group-item">
+            <i class="bi bi-currency-dollar text-success me-1"></i>
             <strong>Price:</strong> $<%= rentPlace.price %>/night
           </li>
         </ul>
@@ -30,7 +39,7 @@
         <div class="card-body d-flex justify-content-between">
           <a
             href="/rentloc/<%= rentPlace.id %>/edit"
-            class="btn btn-info btn-sm"
+            class="btn btn-info btn-sm rounded-pill px-4 fw-semibold"
             >Edit</a
           >
           <form
@@ -38,66 +47,109 @@
             method="POST"
             class="d-inline"
           >
-            <button class="btn btn-danger btn-sm">Delete</button>
+            <button class="btn btn-danger btn-sm rounded-pill px-4 fw-semibold">
+              Delete
+            </button>
           </form>
         </div>
         <% } %>
         <div class="card-footer text-muted text-center">
-          <small>Posted 2 Days Ago</small>
+          <small><i class="bi bi-clock me-1"></i>Posted 2 Days Ago</small>
         </div>
       </div>
     </div>
-
-    <!-- Review Section -->
     <div class="col-md-6">
-      <h4 class="mb-4 text-center">Leave a Review</h4>
-      <form
-        action="/rentloc/<%= rentPlace.id %>/review"
-        method="POST"
-        class="validated-form mb-4"
-        novalidate
-      >
-        <div class="mb-3">
-          <div class="ms-l">
-            <strong>Rating:</strong> <span id="ratingValue">3</span> ⭐
-          </div>
-          <input
-            class="form-range"
-            type="range"
-            min="1"
-            max="5"
-            name="review[rating]"
-            id="rating"
-            oninput="document.getElementById('ratingValue').innerText = this.value"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="body">Review</label>
-          <textarea
-            class="form-control"
-            name="review[body]"
-            id="body"
-            cols="30"
-            rows="3"
-            placeholder="Write your review here..."
-            required
-          ></textarea>
-          <div class="valid-feedback">Looks Good!</div>
-        </div>
-        <button class="btn btn-success w-100">Submit</button>
-      </form>
+      <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+        <h4 class="mb-4 text-center text-primary fw-bold">Leave a Review</h4>
+        <form
+          action="/rentloc/<%= rentPlace.id %>/review"
+          method="POST"
+          class="validated-form mb-4"
+          novalidate
+        >
+          <div class="mb-3">
+            <div class="d-flex align-items-center">
+              <fieldset class="starability-basic">
+                <legend>Rating:</legend>
+                <input
+                  type="radio"
+                  id="no-rate"
+                  class="input-no-rate"
+                  name="review[rating]"
+                  value="1"
+                  checked
+                  aria-label="No rating."
+                />
+                <input
+                  type="radio"
+                  id="first-rate1"
+                  name="review[rating]"
+                  value="1"
+                />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input
+                  type="radio"
+                  id="first-rate2"
+                  name="review[rating]"
+                  value="2"
+                />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input
+                  type="radio"
+                  id="first-rate3"
+                  name="review[rating]"
+                  value="3"
+                />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input
+                  type="radio"
+                  id="first-rate4"
+                  name="review[rating]"
+                  value="4"
+                />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input
+                  type="radio"
+                  id="first-rate5"
+                  name="review[rating]"
+                  value="5"
+                />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+              </fieldset>
+            </div>
 
-      <!-- Display Reviews in a Grid -->
-      <h4 class="mb-4 text-center">Reviews</h4>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="body">Review</label>
+            <textarea
+              class="form-control"
+              name="review[body]"
+              id="body"
+              cols="30"
+              rows="3"
+              placeholder="Write your review here..."
+              required
+            ></textarea>
+            <div class="valid-feedback">Looks Good!</div>
+          </div>
+          <button class="btn btn-success w-100 fw-semibold">Submit</button>
+        </form>
+      </div>
+      <h4 class="mb-4 text-center text-success fw-bold">Reviews</h4>
       <div class="row g-3">
-        <% for (let review of rentPlace.reviews) { %>
+        <% if(rentPlace.reviews.length){%> <% for (let review of
+        rentPlace.reviews) { %>
         <div class="col-md-6">
-          <div class="card shadow-sm h-100 border-0">
+          <div class="card shadow-sm h-100 border-0 rounded-4">
             <div class="card-body">
-              <h5 class="card-title">Rating: <%= review.rating %> ⭐</h5>
-              <p class="card-subtitle text-muted mb-2">
-                By <%= review.author.username %>
+              <h6 class="card-subtitle mb-2">
+                <i class="bi bi-person-circle me-1"></i><%=
+                review.author.username %>
+              </h6>
+              <p class="starability-result" data-rating="<%=review.rating%>">
+                Rated: <%=review.rating%>
               </p>
+
               <p class="card-text"><%= review.body %></p>
               <% if (currentUser && rentPlace.author.equals(currentUser._id)) {
               %>
@@ -105,14 +157,38 @@
                 action="/rentloc/<%= rentPlace.id %>/review/<%= review._id %>?_method=DELETE"
                 method="POST"
               >
-                <button class="btn btn-sm btn-danger">Delete</button>
+                <button class="btn btn-sm btn-danger rounded-pill px-3">
+                  Delete
+                </button>
               </form>
               <% } %>
             </div>
           </div>
         </div>
-        <% } %>
+        <% } %> <% } else{%>
+        <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+          <h4 class="text-center text-muted">OOPS! No Reviews.....</h4>
+        </div>
+        <% }%>
       </div>
     </div>
   </div>
 </div>
+<style>
+  .card,
+  .bg-white {
+    border-radius: 1.25rem !important;
+  }
+  .form-range::-webkit-slider-thumb {
+    background: #198754;
+  }
+  .form-range::-moz-range-thumb {
+    background: #198754;
+  }
+  .form-range::-ms-thumb {
+    background: #198754;
+  }
+</style>
+<!-- Make sure Bootstrap Icons CDN is included in your layout for icons:
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+-->

@@ -1,28 +1,47 @@
 <% layout('layouts/boilerplate') %>
-<div class="container mt-5 mb-3">
-  <h1 class="text-center mb-4">Explore Rental Locations</h1>
+<div class="container mt-5 mb-4">
+  <h1 class="text-center mb-5 display-4 fw-bold text-success" style="letter-spacing:2px;">
+    <i class="bi bi-geo-alt-fill me-2 text-primary"></i>Explore Rental Locations
+  </h1>
   <div class="row g-4">
     <% for(let loc of rentLoc) { %>
     <div class="col-md-6 col-lg-4">
-      <div class="position-relative overflow-hidden rounded shadow-lg">
+      <div class="position-relative overflow-hidden rounded-4 shadow-lg border-0 bg-white h-100 location-card">
         <img
           src="<%= loc.image %>"
           alt="<%= loc.title %>"
           class="img-fluid w-100"
-          style="height: 250px; object-fit: cover"
+          style="height: 230px; object-fit: cover; border-top-left-radius:1rem; border-top-right-radius:1rem;"
         />
         <div
-          class="position-absolute bottom-0 start-0 w-100 p-3 text-white"
-          style="background: rgba(0, 0, 0, 0.6)"
+          class="position-absolute top-0 end-0 m-2 px-3 py-1 bg-success text-white rounded-pill shadow-sm"
+          style="font-size: 1rem; opacity: 0.95;"
         >
-          <h5 class="mb-1"><%= loc.title %></h5>
-          <p class="mb-1">$<%= loc.price %>/night</p>
-          <a href="/rentloc/<%= loc._id %>" class="btn btn-sm btn-light"
-            >View Details</a
-          >
+          $<%= loc.price %>/night
+        </div>
+        <div class="p-4">
+          <h5 class="fw-bold text-primary mb-3 text-center style="letter-spacing:1px;"><%= loc.title %></h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="/rentloc/<%= loc._id %>" class="btn btn-outline-success btn-sm rounded-pill px-4 fw-semibold shadow-sm">
+              View Details
+            </a>
+            <span class="badge bg-light text-secondary border px-3 py-2 shadow-sm">
+              <i class="bi bi-geo-alt-fill text-danger"></i> <%= loc.location %>
+            </span>
+          </div>
         </div>
       </div>
     </div>
     <% } %>
   </div>
 </div>
+<style>
+  .location-card {
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .location-card:hover {
+    transform: translateY(-7px) scale(1.03);
+    box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.18);
+    z-index: 2;
+  }
+</style>

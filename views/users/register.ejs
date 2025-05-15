@@ -1,31 +1,53 @@
 <% layout('layouts/boilerplate') %>
-<h1>Register</h1>
-<form action="/register" method="POST" class="validated-form" novalidate>
-  <div class="mb-3">
-    <label class="form-label" for="username">Username :</label>
-    <input
-      class="form-control"
-      type="text"
-      id="username"
-      name="username"
-      required
-    />
-    <div class="valid-feedback">Looks Good!</div>
+<div
+  class="container d-flex justify-content-center align-items-center"
+  style="min-height: 80vh"
+>
+  <div class="col-md-7 col-lg-5 p-4 rounded shadow bg-light">
+    <h2 class="text-center mb-4 text-primary fw-bold">Create Your Account</h2>
+    <form action="/register" method="POST" class="validated-form" novalidate>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="username">Username</label>
+        <input
+          class="form-control"
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Choose a username"
+          required
+        />
+        <div class="valid-feedback">Looks Good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="email">Email</label>
+        <input
+          class="form-control"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+        <div class="valid-feedback">Looks Good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="password">Password</label>
+        <input
+          class="form-control"
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Create a password"
+          required
+        />
+      </div>
+      <button class="btn btn-primary w-100 fw-semibold">Create Account</button>
+    </form>
+    <div class="text-center mt-3">
+      <small
+        >Already have an account?
+        <a href="/login" class="text-primary fw-semibold">Sign In</a></small
+      >
+    </div>
   </div>
-  <div class="mb-3">
-    <label class="form-label" for="email">Email :</label>
-    <input class="form-control" type="email" id="email" name="email" required />
-    <div class="valid-feedback">Looks Good!</div>
-  </div>
-  <div class="mb-3">
-    <label class="form-label" for="email">Password :</label>
-    <input
-      class="form-control"
-      type="password"
-      id="password"
-      name="password"
-      required
-    />
-  </div>
-  <button class="btn btn-success">Submit</button>
-</form>
+</div>

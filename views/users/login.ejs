@@ -1,26 +1,35 @@
 <% layout('layouts/boilerplate') %>
-<h1>Log In</h1>
-<form action="/login" method="POST" class="validated-form" novalidate>
-  <div class="mb-3">
-    <label class="form-label" for="username">Username :</label>
-    <input
-      class="form-control"
-      type="text"
-      id="username"
-      name="username"
-      required
-    />
-    <div class="valid-feedback">Looks Good!</div>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="col-md-6 col-lg-5 p-4 rounded shadow bg-light">
+    <h2 class="text-center mb-4 text-success fw-bold">Sign In to Your Account</h2>
+    <form action="/login" method="POST" class="validated-form" novalidate>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="username">Username</label>
+        <input
+          class="form-control"
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Enter your username"
+          required
+        />
+        <div class="valid-feedback">Looks Good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="password">Password</label>
+        <input
+          class="form-control"
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+      <button class="btn btn-success w-100 fw-semibold">Sign In</button>
+    </form>
+    <div class="text-center mt-3">
+      <small>Don't have an account? <a href="/register" class="text-success fw-semibold">Create one</a></small>
+    </div>
   </div>
-  <div class="mb-3">
-    <label class="form-label" for="email">Password :</label>
-    <input
-      class="form-control"
-      type="password"
-      id="password"
-      name="password"
-      required
-    />
-  </div>
-  <button class="btn btn-success">Submit</button>
-</form>
+</div>
