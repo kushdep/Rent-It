@@ -65,3 +65,11 @@ module.exports.deleteRentalLoc = async (req, res) => {
 }
 
 
+module.exports.showMyLoc = async (req, res) => {
+  const { id } = req.params
+  const allRentPlace = await RentLoc.find().populate("author")
+  console.log(allRentPlace)
+  const rentLoc = await RentLoc.find({ author: { _id: id } })
+  console.log("My loc " + rentLoc)
+  res.render('rentloc/index', { rentLoc, id })
+}

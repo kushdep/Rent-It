@@ -38,4 +38,8 @@ router.get(
   isAuthor,
   catchAsync(rentLocController.editRentalLoc));
 
+router.get('/:id/my-locations',
+  isLoggedIn,
+  catchAsync(rentLocController.showMyLoc)
+)
 module.exports = router
