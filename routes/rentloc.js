@@ -15,7 +15,7 @@ router.route('/')
     catchAsync(rentLocController.createRentalLoc)
   );
 
-
+router.get('/user/:id',isLoggedIn,rentLocController.index)
 
 router.get("/new", isLoggedIn, rentLocController.renderNewForm);
 

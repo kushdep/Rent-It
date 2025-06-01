@@ -2,11 +2,9 @@ const RentLoc = require("../models/rentloc");
 
 
 module.exports.index = async (req, res) => {
-  const rentLoc = await RentLoc.find({});
-  const rentLocById = await RentLoc.findById('682601e42a1eb51301774aab');
-  console.log(rentLocById)
-  console.log('rentLocID.images' + rentLocById.images)
-  console.log('rentLocID[0].images' + rentLocById.images[0])
+  const {id} = req.params
+  const allRentLoc = await RentLoc.find().populate("author")
+  const rentLoc = allRentLoc.filter((e)=>e.author._id.toString()!==id)
   res.render("rentloc/index", { rentLoc });
 }
 
@@ -71,5 +69,5 @@ module.exports.showMyLoc = async (req, res) => {
   console.log(allRentPlace)
   const rentLoc = await RentLoc.find({ author: { _id: id } })
   console.log("My loc " + rentLoc)
-  res.render('rentloc/index', { rentLoc, id })
+  res.render('rentloc/index', { rentLoc})
 }
