@@ -1,0 +1,66 @@
+<div class="col-10 col-lg-6">
+  <div class="container" style="min-height: 80vh">
+    <div class="p-4 rounded shadow bg-light">
+      <h2 class="text-center mb-4 text-primary fw-bold">Rent-IT</h2>
+      <form action="/register" method="POST" class="" >
+        <div class="mb-3">
+          <label class="form-label fw-semibold" for="username">Username</label>
+          <input
+            class="form-control"
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Choose a username"
+            required
+            readonly
+            value=<%=currentUser.username%>
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold" for="email">Email</label>
+          <input
+            class="form-control"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            readonly
+            value=<%=currentUser.email%>
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold" for="ID">ID Proof</label>
+          <input
+            class="form-control"
+            type="identity-proof"
+            id="identity-proof"
+            name="identity-proof"
+            placeholder="Enter any valid ID number"
+          />
+        </div>
+      <div class="mb-3">
+        <label for="nights" class="form-label fw-semibold">Renting For</label>
+        <div class="input-group">
+          <span class="input-group-text">for</span>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            id="price"
+            class="form-control"
+            placeholder="1"
+            name="rentloc[price]"
+            required
+          />
+          <span class="input-group-text">night</span>
+        </div>
+        <div class="valid-feedback">Looks Good!</div>
+      </div>
+        <button class="btn btn-primary w-100 fw-semibold">
+          Submit
+        </button>
+      </form>
+
+    </div>
+  </div>
+</div>

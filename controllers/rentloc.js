@@ -2,9 +2,9 @@ const RentLoc = require("../models/rentloc");
 
 
 module.exports.index = async (req, res) => {
-  const {id} = req.params
+  const { id } = req.params
   const allRentLoc = await RentLoc.find().populate("author")
-  const rentLoc = allRentLoc.filter((e)=>e.author._id.toString()!==id)
+  const rentLoc = allRentLoc.filter((e) => e.author._id.toString() !== id)
   res.render("rentloc/index", { rentLoc });
 }
 
@@ -22,7 +22,7 @@ module.exports.createRentalLoc = async (req, res) => {
 }
 
 module.exports.showRentalLoc = async (req, res) => {
-  const { id } = req.params;
+  const { id,userId=null } = req.params;
   const rentPlace = await RentLoc.findById({ _id: id }).populate({
     path: "reviews",
     populate: { path: 'author' }
@@ -31,7 +31,7 @@ module.exports.showRentalLoc = async (req, res) => {
     req.flash('error', "Cannot Get Rental Location")
     return res.redirect('/rentloc')
   }
-  res.render("rentloc/show", { rentPlace });
+  res.render("rentloc/show", { rentPlace,userId });
 }
 
 module.exports.editRentalLoc = async (req, res) => {
@@ -69,5 +69,13 @@ module.exports.showMyLoc = async (req, res) => {
   console.log(allRentPlace)
   const rentLoc = await RentLoc.find({ author: { _id: id } })
   console.log("My loc " + rentLoc)
-  res.render('rentloc/index', { rentLoc})
+  res.render('rentloc/index', { rentLoc })
+}
+
+module.exports.rentItForm = async (req, res) => {
+  const {id,userId} = req.params
+  const rentPlace = await RentLoc.findById(id).populate("author")
+  console.log("userId "+userId)
+  console.log("rentplace "+rentPlace)
+  res.render('rentloc/show',{rentPlace,userId})
 }

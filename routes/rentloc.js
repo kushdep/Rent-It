@@ -38,8 +38,15 @@ router.get(
   isAuthor,
   catchAsync(rentLocController.editRentalLoc));
 
+  //in this it containing user id
 router.get('/:id/my-locations',
   isLoggedIn,
   catchAsync(rentLocController.showMyLoc)
 )
+
+router.get('/:id/rent-it/:userId',
+  isLoggedIn,
+  catchAsync(rentLocController.rentItForm)
+)
+
 module.exports = router
