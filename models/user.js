@@ -9,23 +9,30 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-    requests: {
-        locations: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'RentLoc'
+    requests: [        
+        {
+            location:{
+            type: Schema.Types.ObjectId,
+            ref: 'RentLoc'
+            },
+            rentedBy:{
+                type:Schema.Types.ObjectId,
+                ref:'User'
             }
-        ]
-    },
-    approvals: {
-        locations: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'RentLoc'
+        }
+    ],
+    approvals:[
+        {
+            location:{
+            type: Schema.Types.ObjectId,
+            ref: 'RentLoc'
+            },
+            approvedBy:{
+                type:Schema.Types.ObjectId,
+                ref:'User'
             }
-        ]
-    }
-
+        }
+    ]
 })
 
 UserSchema.plugin(passportLocalMongoose)
