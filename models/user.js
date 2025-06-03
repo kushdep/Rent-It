@@ -18,6 +18,13 @@ const UserSchema = new Schema({
             rentedBy:{
                 type:Schema.Types.ObjectId,
                 ref:'User'
+            },
+            accomNight:{
+                type:String,
+            },
+            idProof:{
+                type:String,
+                unique:true
             }
         }
     ],
@@ -27,7 +34,7 @@ const UserSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'RentLoc'
             },
-            approvedBy:{
+            approvalBy:{
                 type:Schema.Types.ObjectId,
                 ref:'User'
             }

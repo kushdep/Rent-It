@@ -44,9 +44,13 @@ router.get('/:id/my-locations',
   catchAsync(rentLocController.showMyLoc)
 )
 
-router.get('/:id/rent-it/:userId',
+router.route('/:locId/rent-it/:userId')
+.get(
   isLoggedIn,
   catchAsync(rentLocController.rentItForm)
 )
+.post(
+  isLoggedIn,
+  catchAsync(rentLocController.reqToRent))
 
 module.exports = router
