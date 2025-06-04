@@ -99,12 +99,14 @@
         </div>
       </div>
     </div>
-    <!-- Right: Calendar + Review/RentIt -->
     <div class="col-12 col-lg-5 d-flex flex-column gap-5">
       <div ><%- include('calender') %></div>
       <div>
-        <% if(currentUser && userId!==null ){ %> <%- include('rentIt') %> <% }
-        else { %> <%- include('review') %> <% } %>
+        <% if(currentUser && userId!==null )
+        { %> <%- include('rentIt') %> 
+        <% }else { %>
+           <%- include('review') %> 
+        <% } %>
       </div>
     </div>
   </div>

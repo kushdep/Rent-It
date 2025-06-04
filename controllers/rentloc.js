@@ -81,8 +81,7 @@ module.exports.rentItForm = async (req, res) => {
 
 module.exports.reqToRent = async (req, res) => {
   const { locId, userId } = req.params
-  const { rentFor, idProof } = req.body
-  console.log("rent " + rentFor, "id" + idProof)
+  const { From,To, idProof } = req.body
   const rentloc = await RentLoc.findById(locId);
   const approverId = rentloc.author
   const approver = await User.findById(approverId)
@@ -90,8 +89,9 @@ module.exports.reqToRent = async (req, res) => {
   approver.requests.push({
     location: locId,
     rentedBy: userId,
-    accomNight: rentFor,
-    idProof: idProof
+    idProof: idProof,
+    From:From,
+    To:To
   })
   await approver.save()
   renter.approvals.push({

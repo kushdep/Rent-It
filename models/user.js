@@ -19,11 +19,10 @@ const UserSchema = new Schema({
                 type:Schema.Types.ObjectId,
                 ref:'User'
             },
-            accomNight:{
-                type:String,
-            },
+            From:Date,
+            To:Date,
             idProof:{
-                type:String,
+                type:Number,
                 unique:true
             }
         }

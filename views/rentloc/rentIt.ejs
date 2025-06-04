@@ -1,4 +1,4 @@
-<div class="col-10 col-lg-6">
+<div class="col-12">
   <div class="container" style="min-height: 80vh">
     <div class="p-4 rounded shadow bg-light">
       <h2 class="text-center mb-4 text-primary fw-bold">Rent-IT</h2>
@@ -39,28 +39,32 @@
             placeholder="Enter any valid ID number"
           />
         </div>
-      <div class="mb-3">
-        <label for="rentFor" class="form-label fw-semibold">Renting For</label>
-        <div class="input-group">
-          <span class="input-group-text">for</span>
+        <div class="mb-3 d-flex flex-row gap-2">
+          <label class="form-label fw-semibold" for="From">From:</label>
           <input
-            type="number"
-            min="0"
-            step="1"
-            id="rentFor"
             class="form-control"
-            placeholder="1"
-            name="rentFor"
+            type="date"
+            id="from"
+            name="From"
             required
           />
-          <span class="input-group-text">night</span>
+          <label class="form-label fw-semibold" for="To">To:</label>
+          <input
+            class="form-control"
+            type="date"
+            id="To"
+            name="To"
+            required
+            placeholder="Enter any valid ID number"
+          />
         </div>
-      </div>
+
         <button class="btn btn-primary w-100 fw-semibold">
           Submit
         </button>
       </form>
-
+      </div>
+    </div>
     </div>
   </div>
 </div>

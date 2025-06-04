@@ -2,8 +2,8 @@
   class="p-4 rounded-4 shadow bg-light d-flex flex-column align-items-center"
   style="max-width: 420px; margin: 0 auto"
 >
-  <h5 class="text-success fw-bold mb-3" style="letter-spacing: 1px">
-    <i class="bi bi-calendar-event me-2 text-primary"></i>Availability Calendar
+  <h5 class="text-success fw-bold mb-3" style="letter-spacing: 0px">
+    <i class="bi bi-calendar-event me-2 "></i>Availability Calendar
   </h5>
   <div
     id="calendar"
@@ -38,8 +38,6 @@
           center: "title",
           right: "next",
         },
-        // Remove up/down arrows (week/day views) by not including them in headerToolbar
-        // and not enabling those views
       });
       calendar.render();
     });
@@ -72,7 +70,7 @@
       background: #145c32;
     }
     #calendar .fc-daygrid-day-number {
-      color: #198754;
+      color: #000000;
       font-weight: 400;
       border-radius: 0.5rem;
       text-decoration: none;
@@ -90,10 +88,9 @@
     }
 
     #calendar .fc-col-header-cell-cushion {
-      color: #145c32;
+      color: #000000;
       font-weight: 600;
       text-decoration: none;
-
       letter-spacing: 1px;
     }
   </style>

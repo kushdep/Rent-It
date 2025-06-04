@@ -23,6 +23,7 @@ const RentlocSchema = new Schema({
       ref: "Review",
     },
   ],
+  BookedDates:[Date]
 });
 
 RentlocSchema.post("findOneAndDelete", async function (doc) {
