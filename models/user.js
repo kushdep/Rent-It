@@ -15,7 +15,7 @@ const UserSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'RentLoc'
             },
-            reqBy: {type: Schema.Types.ObjectId},
+            reqBy: { type: Schema.Types.ObjectId },
             requestedFor: {
                 start: Date,
                 end: Date,
@@ -24,7 +24,10 @@ const UserSchema = new Schema({
                 type: Number,
                 unique: true
             },
-            rent: Number
+            rent: {
+                totalNights: Number,
+                totalRent: Number
+            }
         }
     ],
     approvals: [
@@ -35,8 +38,14 @@ const UserSchema = new Schema({
                 start: { type: Date },
                 end: { type: Date }
             },
-            approvalStatus:String,
-            rent: Number
+            approvalStatus: {
+                type: String,
+                enum: ['Pending', 'Approved', 'Rejected']
+            },
+            rent: {
+                totalNights: Number,
+                totalRent: Number
+            }
         }
     ]
 })

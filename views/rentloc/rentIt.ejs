@@ -39,28 +39,51 @@
             placeholder="Enter any valid ID number"
           />
         </div>
-        <div class="mb-3 d-flex flex-row gap-2">
-          <label class="form-label fw-semibold" for="From">From:</label>
-          <input
-            class="form-control"
-            type="date"
-            id="from"
-            name="From"
-            min=<%=bookingDates.minDate%>
-            max=<%=bookingDates.maxDate%>
-            required
-          />
-          <label class="form-label fw-semibold" for="To">To:</label>
-          <input
-            class="form-control"
-            type="date"
-            id="To"
-            name="To"
-            min=<%=bookingDates.minDate%>
-            max=<%=bookingDates.maxDate%>
-            required
-          />
+
+        <div class="d-flex flex-row gap-4 mb-3">
+          <div class="d-flex flex-column" style="width: 50%;">
+             <label class="form-label fw-semibold" for="From">From:</label>
+            <input
+              class="form-control"
+              type="date"
+              id="from"
+              name="From"
+              min=<%=bookingDates.minDate%>
+              max=<%=bookingDates.maxDate%>
+              required
+            />
+          </div>
+  
+          <div class="d-flex flex-column" style="width: 50%;">
+            <label class="form-label fw-semibold" for="To">To:</label>
+            <input
+              class="form-control"
+              type="date"
+              id="To"
+              name="To"
+              min=<%=bookingDates.minDate%>
+              max=<%=bookingDates.maxDate%>
+              required
+            />
+          </div>
         </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+          <input
+            type="number"
+            min="0"
+            step="0.01"
+            id="rentPrice"
+            class="form-control input-group-text text-success fw-bold"
+            placeholder="0.00"
+            name="totalRent"
+            readonly
+            required
+          />
+          <span class="input-group-text fw-bold text-success">$</span>
+        </div>
+      </div>
 
         <button class="btn btn-primary w-100 fw-semibold">
           Submit
@@ -83,5 +106,27 @@
         toInput.value = "";
       }
     });
+  });
+
+  function getTotalNights(dateFrom, dateTo) {
+    const from = new Date(dateFrom);
+    const to = new Date(dateTo);
+    const diffTime = to - from;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const fromInput = document.getElementById("from");
+    const toInput = document.getElementById("To");
+    const priceInputEle = document.getElementById('rentPrice');
+
+    function updatePrice() {
+      const totalNights = getTotalNights(fromInput.value, toInput.value);
+      priceInputEle.value = totalNights * <%= rentPlace.price %>;
+    }
+
+    fromInput.addEventListener("change", updatePrice);
+    toInput.addEventListener("change", updatePrice);
   });
 </script>

@@ -1,5 +1,6 @@
 const RentLoc = require("../models/rentloc");
 const User = require('../models/user')
+const Booking = require('../models/bookings')
 const Utils = require('../utils/utilities')
 
 
@@ -88,6 +89,7 @@ module.exports.reqToRent = async (req, res) => {
   const approverId = rentloc.author
   const approver = await User.findById(approverId)
   const renter = await User.findById(userId)
+  const totalNights = totalRent / rentloc.price
   approver.requests.push({
     location: locId,
     reqBy: userId,
@@ -96,20 +98,30 @@ module.exports.reqToRent = async (req, res) => {
       start: From,
       end: To
     },
-    rent: totalRent
+    rent: {
+      totalNights,
+      totalRent,
+    }
   })
   await approver.save()
   renter.approvals.push({
     location: locId,
     approvalBy: approverId,
-    approvalStatus:'Pending',
+    approvalStatus: 'Pending',
     approvalFor: {
       start: From,
       end: To,
     },
-    rent:totalRent
+    rent: {
+      totalNights,
+      totalRent,
+    }
   })
   await renter.save()
+  const newBooking = new Booking({
+    locDetails:locId,
+    approvalStatus
+  })
   req.flash('success', `Successfully made a Request to ${approver.username}`)
   res.redirect(`/rentloc/${locId}`)
 }
