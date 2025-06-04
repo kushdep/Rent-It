@@ -23,14 +23,17 @@ const RentlocSchema = new Schema({
       ref: "Review",
     },
   ],
-  bookedDetails: [
+  bookingDetails: [
     {
-      bookedFrom: Date,
-      bookedTo: Date,
+      bookedForDates: {
+        start: { type: Date },
+        end: { type: Date }
+      },
       bookedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-      }
+      },
+      rent: Number
     }
   ]
 });

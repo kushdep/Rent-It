@@ -46,7 +46,6 @@
             type="date"
             id="from"
             name="From"
-            value=""
             min=<%=bookingDates.minDate%>
             max=<%=bookingDates.maxDate%>
             required
@@ -72,3 +71,17 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const fromInput = document.getElementById("from");
+    const toInput = document.getElementById("To");
+
+    fromInput.addEventListener("change", function () {
+      toInput.min = fromInput.value;
+      if (toInput.value < fromInput.value) {
+        toInput.value = "";
+      }
+    });
+  });
+</script>

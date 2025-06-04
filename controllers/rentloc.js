@@ -78,12 +78,12 @@ module.exports.rentItForm = async (req, res) => {
   const { locId, userId } = req.params
   const rentPlace = await RentLoc.findById(locId).populate("author")
   const bookingDates = Utils.getDates()
-  res.render('rentloc/show', { rentPlace, userId,bookingDates })
+  res.render('rentloc/show', { rentPlace, userId, bookingDates })
 }
 
 module.exports.reqToRent = async (req, res) => {
   const { locId, userId } = req.params
-  const { From, To, idProof } = req.body
+  const { From, To, idProof, totalRent } = req.body
   const rentloc = await RentLoc.findById(locId);
   const approverId = rentloc.author
   const approver = await User.findById(approverId)
@@ -92,8 +92,11 @@ module.exports.reqToRent = async (req, res) => {
     location: locId,
     rentedBy: userId,
     idProof: idProof,
-    From: From,
-    To: To
+    requestedFor: {
+      from: From,
+      to: To
+    },
+    rent: totalRent
   })
   await approver.save()
   renter.approvals.push({

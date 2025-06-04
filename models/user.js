@@ -9,34 +9,36 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-    requests: [        
+    requests: [
         {
-            location:{
-            type: Schema.Types.ObjectId,
-            ref: 'RentLoc'
+            location: {
+                type: Schema.Types.ObjectId,
+                ref: 'RentLoc'
             },
-            rentedBy:{
-                type:Schema.Types.ObjectId,
-                ref:'User'
+            reqBy: {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
             },
-            From:Date,
-            To:Date,
-            idProof:{
-                type:Number,
-                unique:true
-            }
+            requestedFor: {
+                from: Date,
+                to: Date,
+            },
+            idProof: {
+                type: Number,
+                unique: true
+            },
+            rent: Number
         }
     ],
-    approvals:[
+    approvals: [
         {
-            location:{
-            type: Schema.Types.ObjectId,
-            ref: 'RentLoc'
+            location: Schema.Types.ObjectId,
+            approvedBy: Schema.Types.ObjectId,
+            approvedFor: {
+                start: { type: Date },
+                end: { type: Date }
             },
-            approvalBy:{
-                type:Schema.Types.ObjectId,
-                ref:'User'
-            }
+            rent: Number
         }
     ]
 })
