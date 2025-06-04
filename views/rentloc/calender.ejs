@@ -1,0 +1,100 @@
+<div
+  class="p-4 rounded-4 shadow bg-light d-flex flex-column align-items-center"
+  style="max-width: 420px; margin: 0 auto"
+>
+  <h5 class="text-success fw-bold mb-3" style="letter-spacing: 1px">
+    <i class="bi bi-calendar-event me-2 text-primary"></i>Availability Calendar
+  </h5>
+  <div
+    id="calendar"
+    style="
+      width: 100%;
+      min-width: 260px;
+      max-width: 370px;
+      margin: 0 auto;
+      font-size: 1rem;
+      border-radius: 1.2rem;
+    "
+    class="p-3"
+  ></div>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var calendarEl = document.getElementById("calendar");
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        themeSystem: "bootstrap5",
+        height: 300,
+        contentHeight: 300,
+        aspectRatio: 1.1,
+        headerToolbar: {
+          left: "prev",
+          center: "title",
+          right: "next",
+        },
+        // Remove up/down arrows (week/day views) by not including them in headerToolbar
+        // and not enabling those views
+      });
+      calendar.render();
+    });
+  </script>
+  <style>
+    #calendar .fc {
+      font-size: 1rem;
+      background: #fff;
+      border-radius: 1.2rem;
+    }
+    #calendar .fc-toolbar-title {
+      font-size: 1.25rem;
+      color: #198754;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+    #calendar .fc-button {
+      padding: 0.25rem 0.8rem;
+      font-size: 0.95rem;
+      background: #198754;
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 4px rgba(25, 135, 84, 0.08);
+      transition: background 0.2s;
+    }
+    #calendar .fc-button-primary:not(:disabled):active,
+    #calendar .fc-button-primary:not(:disabled).fc-button-active,
+    #calendar .fc-button-primary:hover {
+      background: #145c32;
+    }
+    #calendar .fc-daygrid-day-number {
+      color: #198754;
+      font-weight: 400;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      padding: 2px 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    #calendar .fc-daygrid-day:hover .fc-daygrid-day-number {
+      background: #e0f7e9;
+      color: #145c32;
+    }
+    #calendar .fc-day-today {
+      background: #fffbe6 !important;
+      border-radius: 0.7rem;
+      box-shadow: 0 0 0 2px #ffe06699;
+    }
+
+    #calendar .fc-col-header-cell-cushion {
+      color: #145c32;
+      font-weight: 600;
+      text-decoration: none;
+
+      letter-spacing: 1px;
+    }
+  </style>
+</div>

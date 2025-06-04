@@ -23,7 +23,7 @@ module.exports.createRentalLoc = async (req, res) => {
 }
 
 module.exports.showRentalLoc = async (req, res) => {
-  const { id,userId=null } = req.params;
+  const { id, userId = null } = req.params;
   const rentPlace = await RentLoc.findById({ _id: id }).populate({
     path: "reviews",
     populate: { path: 'author' }
@@ -32,7 +32,7 @@ module.exports.showRentalLoc = async (req, res) => {
     req.flash('error', "Cannot Get Rental Location")
     return res.redirect('/rentloc')
   }
-  res.render("rentloc/show", { rentPlace,userId });
+  res.render("rentloc/show", { rentPlace, userId });
 }
 
 module.exports.editRentalLoc = async (req, res) => {
@@ -74,34 +74,31 @@ module.exports.showMyLoc = async (req, res) => {
 }
 
 module.exports.rentItForm = async (req, res) => {
-  const {locId,userId} = req.params
+  const { locId, userId } = req.params
   const rentPlace = await RentLoc.findById(locId).populate("author")
-  res.render('rentloc/show',{rentPlace,userId})
+  res.render('rentloc/show', { rentPlace, userId })
 }
 
 module.exports.reqToRent = async (req, res) => {
-  const {locId,userId} = req.params
-  const {rentFor,idProof} = req.body
-  console.log("rent "+rentFor,"id"+idProof)
+  const { locId, userId } = req.params
+  const { rentFor, idProof } = req.body
+  console.log("rent " + rentFor, "id" + idProof)
   const rentloc = await RentLoc.findById(locId);
   const approverId = rentloc.author
   const approver = await User.findById(approverId)
   const renter = await User.findById(userId)
-  const request = {
-    location:locId,
-    rentedBy:userId,
-    accomNight:rentFor,
-    idProof:idProof
-  }
-  approver.requests.push(request)
+  approver.requests.push({
+    location: locId,
+    rentedBy: userId,
+    accomNight: rentFor,
+    idProof: idProof
+  })
   await approver.save()
-  const approval = {
-    location:locId,
-    approvalBy:approverId
-  }
-  renter.approvals.push(approval)
+  renter.approvals.push({
+    location: locId,
+    approvalBy: approverId
+  })
   await renter.save()
-  console.log("Renter "+renter)
   req.flash('success', `Successfully made a Request to ${approver.username}`)
   res.redirect(`/rentloc/${locId}`)
 }

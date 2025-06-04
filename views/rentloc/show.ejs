@@ -2,9 +2,10 @@
 <link rel="stylesheet" href="/stylesheets/stars.css" />
 
 <div class="container mt-3 mb-5">
-  <div class="row gy-5">
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-lg border-0 rounded-4 overflow-hidden h-100">
+  <div class="row gy-3">
+    <!-- Left: Main Card -->
+    <div class="col-12 col-lg-7">
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div class="card-body text-center">
           <div id="carouselExample" class="carousel slide mb-3">
             <div class="carousel-inner">
@@ -98,8 +99,14 @@
         </div>
       </div>
     </div>
-    <%if(currentUser && userId!==null ){%> <%- include('rentIt') %> <%} else {%>
-    <%-include('review') %> <%}%>
+    <!-- Right: Calendar + Review/RentIt -->
+    <div class="col-12 col-lg-5 d-flex flex-column gap-5">
+      <div ><%- include('calender') %></div>
+      <div>
+        <% if(currentUser && userId!==null ){ %> <%- include('rentIt') %> <% }
+        else { %> <%- include('review') %> <% } %>
+      </div>
+    </div>
   </div>
 </div>
 <style>
