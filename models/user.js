@@ -15,13 +15,10 @@ const UserSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'RentLoc'
             },
-            reqBy: {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            },
+            reqBy: {type: Schema.Types.ObjectId},
             requestedFor: {
-                from: Date,
-                to: Date,
+                start: Date,
+                end: Date,
             },
             idProof: {
                 type: Number,
@@ -33,11 +30,12 @@ const UserSchema = new Schema({
     approvals: [
         {
             location: Schema.Types.ObjectId,
-            approvedBy: Schema.Types.ObjectId,
-            approvedFor: {
+            approvalBy: Schema.Types.ObjectId,
+            approvalFor: {
                 start: { type: Date },
                 end: { type: Date }
             },
+            approvalStatus:String,
             rent: Number
         }
     ]

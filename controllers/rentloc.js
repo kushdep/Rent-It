@@ -90,18 +90,24 @@ module.exports.reqToRent = async (req, res) => {
   const renter = await User.findById(userId)
   approver.requests.push({
     location: locId,
-    rentedBy: userId,
+    reqBy: userId,
     idProof: idProof,
     requestedFor: {
-      from: From,
-      to: To
+      start: From,
+      end: To
     },
     rent: totalRent
   })
   await approver.save()
   renter.approvals.push({
     location: locId,
-    approvalBy: approverId
+    approvalBy: approverId,
+    approvalStatus:'Pending',
+    approvalFor: {
+      start: From,
+      end: To,
+    },
+    rent:totalRent
   })
   await renter.save()
   req.flash('success', `Successfully made a Request to ${approver.username}`)
