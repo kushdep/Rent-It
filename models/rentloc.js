@@ -23,7 +23,16 @@ const RentlocSchema = new Schema({
       ref: "Review",
     },
   ],
-  BookedDates:[Date]
+  bookedDetails: [
+    {
+      bookedFrom: Date,
+      bookedTo: Date,
+      bookedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    }
+  ]
 });
 
 RentlocSchema.post("findOneAndDelete", async function (doc) {

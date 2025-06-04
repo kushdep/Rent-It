@@ -46,6 +46,9 @@
             type="date"
             id="from"
             name="From"
+            value=""
+            min=<%=bookingDates.minDate%>
+            max=<%=bookingDates.maxDate%>
             required
           />
           <label class="form-label fw-semibold" for="To">To:</label>
@@ -54,8 +57,9 @@
             type="date"
             id="To"
             name="To"
+            min=<%=bookingDates.minDate%>
+            max=<%=bookingDates.maxDate%>
             required
-            placeholder="Enter any valid ID number"
           />
         </div>
 

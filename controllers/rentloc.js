@@ -1,5 +1,6 @@
 const RentLoc = require("../models/rentloc");
 const User = require('../models/user')
+const Utils = require('../utils/utilities')
 
 
 module.exports.index = async (req, res) => {
@@ -76,12 +77,13 @@ module.exports.showMyLoc = async (req, res) => {
 module.exports.rentItForm = async (req, res) => {
   const { locId, userId } = req.params
   const rentPlace = await RentLoc.findById(locId).populate("author")
-  res.render('rentloc/show', { rentPlace, userId })
+  const bookingDates = Utils.getDates()
+  res.render('rentloc/show', { rentPlace, userId,bookingDates })
 }
 
 module.exports.reqToRent = async (req, res) => {
   const { locId, userId } = req.params
-  const { From,To, idProof } = req.body
+  const { From, To, idProof } = req.body
   const rentloc = await RentLoc.findById(locId);
   const approverId = rentloc.author
   const approver = await User.findById(approverId)
@@ -90,8 +92,8 @@ module.exports.reqToRent = async (req, res) => {
     location: locId,
     rentedBy: userId,
     idProof: idProof,
-    From:From,
-    To:To
+    From: From,
+    To: To
   })
   await approver.save()
   renter.approvals.push({
@@ -102,3 +104,4 @@ module.exports.reqToRent = async (req, res) => {
   req.flash('success', `Successfully made a Request to ${approver.username}`)
   res.redirect(`/rentloc/${locId}`)
 }
+
