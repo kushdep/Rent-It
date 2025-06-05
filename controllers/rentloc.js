@@ -83,44 +83,59 @@ module.exports.rentItForm = async (req, res) => {
 
 module.exports.reqToRent = async (req, res) => {
   const { locId, userId } = req.params
-  const { From, To, idProof, totalRent } = req.body
+  const formData = req.body
+  console.log(formData)
   const rentloc = await RentLoc.findById(locId);
+
   const approverId = rentloc.author
   const approver = await User.findById(approverId)
   const renter = await User.findById(userId)
-  const totalNights = totalRent / rentloc.price
+
+  const totalNights = formData.totalRent / rentloc.price
+
   approver.requests.push({
     location: locId,
-    reqBy: userId,
-    idProof: idProof,
-    requestedFor: {
-      start: From,
-      end: To
+    reqBy: {
+      username: formData.username,
+      email: formData.email,
+      idProof: formData.idProof
     },
-    rent: {
-      totalNights,
-      totalRent,
-    }
+    reqForDates: {
+      start: formData.From,
+      end: formData.To
+    },
+    rentDetails: {
+      totalNights: totalNights,
+      totalRent: formData.totalRent,
+    },
+    reqStatus: 'Pending'
   })
   await approver.save()
-  renter.approvals.push({
-    location: locId,
-    approvalBy: approverId,
-    approvalStatus: 'Pending',
-    approvalFor: {
-      start: From,
-      end: To,
+
+  renter.bookings.push({
+    locDetails: {
+      title: rentloc.title,
+      images: [...rentloc.images],
+      price: rentloc.price,
+      description: rentloc.description,
+      location: rentloc.location
     },
-    rent: {
-      totalNights,
-      totalRent,
+    locOwnerDetails: {
+      username: approver.username,
+      email: approver.email
+    },
+    bookingDates: {
+      start: formData.From,
+      end: formData.To
+    },
+    bookingStatus: 'Pending',
+    rentDetails: {
+      totalNights: formData.totalNights,
+      totalRent: formData.totalRent
     }
   })
   await renter.save()
-  const newBooking = new Booking({
-    locDetails:locId,
-    approvalStatus
-  })
+
   req.flash('success', `Successfully made a Request to ${approver.username}`)
   res.redirect(`/rentloc/${locId}`)
 }

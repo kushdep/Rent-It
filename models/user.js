@@ -28,14 +28,16 @@ const UserSchema = new Schema({
                 start: { type: Date },
                 end: { type: Date }
             },
-            idProof: {
-                type: Number,
-                unique: true
-            },
+
             rentDetails: {
                 totalNights: Number,
                 totalRent: Number
-            }
+            },
+            reqStatus: {
+                type: String,
+                enum: ['Pending', 'Approved', 'Rejected']
+            },
+
         }
     ],
     bookings: [
@@ -59,7 +61,7 @@ const UserSchema = new Schema({
                     required: true
                 }
             },
-            bookedForDates: {
+            bookingDates: {
                 start: { type: Date },
                 end: { type: Date }
             },
