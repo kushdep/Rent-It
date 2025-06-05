@@ -1,6 +1,5 @@
 const RentLoc = require("../models/rentloc");
 const User = require('../models/user')
-const Booking = require('../models/bookings')
 const Utils = require('../utils/utilities')
 
 
