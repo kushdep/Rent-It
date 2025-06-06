@@ -1,0 +1,206 @@
+<% layout('layouts/profile.ejs') %>
+
+<div class="tab-content flex-grow-1 ms-4" id="v-pills-tabContent">
+  <div class="container p-4">
+    <div class="row g-4">
+      <% if(reqLoc.length === 0) { %>
+          <div>
+            <h5
+                  class="card-title fw-bold <%= activeBtn === 'Pending' ? 'text-info' : (activeBtn === 'Approved' ? 'text-success' : 'text-danger') %> mb-2"
+                  style="letter-spacing: 1px"
+                >
+                 NO <%= activeBtn %> Requests ...
+                </h5>
+          </div>  
+      <%}%>
+      <% for(let req of reqLoc) { %>
+      <div class="col-12 col-md-6">
+        <div
+          class="location-card position-relative overflow-hidden rounded-4 shadow-lg border-0 bg-white h-100"
+        >
+          <div class="row g-0" style="height: 100%">
+            <div class="col position-relative">
+              <img
+                src="<%= req.location.images && req.location.images[0] && req.location.images[0].url %>"
+                class="img-fluid rounded-start"
+                style="height: 100%"
+                alt="<%= req.location.title %>"
+              />
+            </div>
+
+            <div class="col-md-8">
+              <div class="card-body py-3 px-4">
+                <div
+                  class="position-absolute top-0 end-0 m-2 px-3 py-1 <%= req.reqStatus === 'Pending' ? 'bg-info' : (req.reqStatus === 'Approved' ? 'bg-success' : 'bg-danger') %> text-white rounded-pill shadow-sm status-badge"
+                  style="font-size: 1rem; opacity: 0.95"
+                >
+                  <%= req.reqStatus %>
+                </div>
+                <h5
+                  class="card-title fw-bold text-success mb-2"
+                  style="letter-spacing: 1px"
+                >
+                  <%= req.location.title %>
+                </h5>
+                <div class="mb-2">
+                  <span class="text-muted"
+                    ><i class="bi bi-envelope me-1"></i>Email:</span
+                  >
+                  <span class="fw-semibold"><%= req.reqBy.email %></span>
+                </div>
+                <div class="mb-2">
+                  <span class="text-muted"
+                    ><i class="bi bi-person me-1"></i>Username:</span
+                  >
+                  <span class="fw-semibold"><%= req.reqBy.username %></span>
+                </div>
+                <div class="mb-2">
+                  <span class="text-muted"
+                    ><i class="bi bi-calendar me-1"></i>From:</span
+                  >
+                  <span class="fw-semibold"><%= req.reqForDates.start %></span>
+                  <span class="text-muted">to</span>
+                  <span class="fw-semibold"><%= req.reqForDates.end %></span>
+                </div>
+                <div class="mb-2">
+                  <span class="text-muted"
+                    ><i class="bi bi-moon-stars me-1"></i>Nights:</span
+                  >
+                  <span class="fw-bold"
+                    ><%= req.rentDetails.totalNights %></span
+                  >
+                  <span class="text-muted ms-3"
+                    ><i class="bi bi-currency-dollar me-1"></i>Rent:</span
+                  >
+                  <span class="fw-bold" style="color: #157347"
+                    >$<%= req.rentDetails.totalRent %></span
+                  >
+                </div>
+                <%if(req.reqStatus === 'Pending'){%>
+                <div class="d-flex gap-2 mt-3">
+                  <a
+                    href="/<%=id%>/renters/<%= req._id %>/Approved?email=<%=req.reqBy.email%>"
+                    class="btn btn-success btn-sm rounded-pill px-3 shadow-sm d-flex align-items-center"
+                    style="font-size: 1.08rem; text-decoration: none"
+                  >
+                    <i class="bi bi-check-circle me-1"></i>Approve
+                  </a>
+                  <a
+                    href="/<%=id%>/renters/<%= req._id %>/Declined?email=<%=req.reqBy.email%>"
+                    class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm d-flex align-items-center"
+                    style="font-size: 1.08rem; text-decoration: none"
+                  >
+                    <i class="bi bi-x-circle me-1"></i>Decline
+                  </a>
+                </div>
+                <%}else{%>
+                <div class="d-flex gap-2 mt-3">
+                  <a
+                    href="/rentloc/<%=req.location._id%>"
+                    class="btn btn-outline-info btn-sm rounded-pill px-3 shadow-sm d-flex align-items-center"
+                    style="font-size: 1.08rem; text-decoration: none"
+                  >
+                    <i class="bi bi-check-circle me-1"></i>Details
+                  </a>
+                </div>
+
+                <%}%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(120deg, #e9f7ef 0%, #fffbea 100%);
+  }
+
+  .tab-content {
+    background: transparent;
+  }
+
+  .location-card {
+    transition: transform 0.22s cubic-bezier(0.4, 2, 0.6, 1), box-shadow 0.22s;
+    border: 1.5px solid #e0e0e0;
+    background: #fff;
+    min-height: 220px;
+    box-shadow: 0 2px 16px rgba(25, 135, 84, 0.08);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .location-card:hover {
+    transform: translateY(-10px) scale(1.035);
+    box-shadow: 0 8px 32px rgba(25, 135, 84, 0.18);
+    border-color: #b2f2e5;
+    z-index: 3;
+  }
+  .status-badge {
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid #fff;
+    padding: 0.35rem 1.1rem;
+    opacity: 0.98;
+    text-shadow: 0 1px 2px #0001;
+  }
+  .card-title {
+    font-size: 1.22rem;
+    letter-spacing: 1.2px;
+  }
+  .btn-success,
+  .btn-outline-danger {
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    font-size: 1.01rem;
+    padding: 0.45rem 1.3rem;
+    border-radius: 2rem !important;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    box-shadow: 0 1px 6px #19875422;
+  }
+  .btn-success:hover,
+  .btn-success:focus {
+    background: #157347 !important;
+    color: #fff !important;
+    box-shadow: 0 2px 12px #19875433;
+  }
+  .btn-outline-danger:hover,
+  .btn-outline-danger:focus {
+    background: #dc3545 !important;
+    color: #fff !important;
+    box-shadow: 0 2px 12px #dc354533;
+  }
+  .img-fluid.rounded-start {
+    border-radius: 1.2rem 0 0 1.2rem !important;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+  @media (max-width: 992px) {
+    .location-card {
+      min-height: 180px;
+    }
+    .card-body {
+      padding: 1rem !important;
+    }
+    .img-fluid.rounded-start {
+      border-radius: 1.2rem 1.2rem 0 0 !important;
+      min-height: 120px;
+      max-height: 160px;
+    }
+  }
+  @media (max-width: 576px) {
+    .location-card {
+      min-height: 140px;
+      border-radius: 1rem;
+    }
+    .card-body {
+      padding: 0.7rem !important;
+    }
+  }
+</style>

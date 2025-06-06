@@ -41,3 +41,44 @@ module.exports.logoutUser = (req, res, next) => {
         res.redirect('/rentloc');
     });
 }
+
+module.exports.getMyBookings = async (req, res) => {
+    res.render('rentloc/renters')
+}
+
+module.exports.getRentersData = async (req, res) => {
+    const { id, reqState } = req.params
+    const buttonValues = ['Pending', 'Approved', 'Declined']
+    const activeBtn = reqState
+
+    const user = await User.findById(id).populate('requests.location')
+    const reqLoc = user.requests.filter(e => e.reqStatus === reqState)
+    console.log(reqLoc)
+
+    res.render('rentloc/renters', { buttonValues, id, activeBtn, reqLoc })
+}
+
+module.exports.setReqLocStts = async (req, res) => {
+    const { id, reqId, reqStts } = req.params
+
+    await User.findOneAndUpdate(
+        { _id: id },
+        { $set: { "requests.$[elem].reqStatus": reqStts } },
+        { arrayFilters: [{ "elem._id": reqId }] }
+    )
+
+    const renterEmail = req.query.email
+    const renter = await User.find({ email: renterEmail })
+
+    await User.findOneAndUpdate(
+        { _id: renter._id },
+        { $set: { "bookings.$[elem].bookingStatus": reqStts } },
+        { arrayFilters: [{ "elem._id": reqId }] }
+    )
+
+    reqStts === 'Approved' ? req.flash('success', `Successfully Approved request`) : req.flash('error', 'Successfully Declined the  Request!');
+
+    res.redirect(`/${id}/renters/Pending`)
+}
+
+

@@ -14,6 +14,18 @@ router.route('/login')
     .post(storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login', }), userController.loginUser
     )
 
+
+router.route('/:id/renters/:reqState')
+        .get(  isLoggedIn,
+          userController.getRentersData)
+router.route('/:id/renters/:reqId/:reqStts')
+            .get(isLoggedIn,
+                userController.setReqLocStts
+            )
+
+router.route('/:id/my-bookings')
+        .get(isLoggedIn,userController.getMyBookings)
+
 router.get('/logout', isLoggedIn, userController.logoutUser);
 
 module.exports = router

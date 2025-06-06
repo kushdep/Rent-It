@@ -1,4 +1,4 @@
-const { required } = require('joi')
+const { required, ref } = require('joi')
 const mongoose = require('mongoose')
 const passportLocalMongoose = require('passport-local-mongoose')
 const Schema = mongoose.Schema
@@ -11,7 +11,10 @@ const UserSchema = new Schema({
     },
     requests: [
         {
-            location: { type: Schema.Types.ObjectId, },
+            location: { 
+                type: Schema.Types.ObjectId, 
+                ref:'RentLoc'
+                },
             reqBy: {
                 username: {
                     type: String,
@@ -25,8 +28,8 @@ const UserSchema = new Schema({
                 idProof: Number
             },
             reqForDates: {
-                start: { type: Date },
-                end: { type: Date }
+                start: { type: String },
+                end: { type: String }
             },
 
             rentDetails: {
@@ -35,7 +38,7 @@ const UserSchema = new Schema({
             },
             reqStatus: {
                 type: String,
-                enum: ['Pending', 'Approved', 'Rejected']
+                enum: ['Pending', 'Approved', 'Declined']
             },
 
         }

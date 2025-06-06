@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const RentLoc = require("../models/rentloc");
 const User = require('../models/user')
 const Utils = require('../utils/utilities')
@@ -92,8 +93,10 @@ module.exports.reqToRent = async (req, res) => {
   const renter = await User.findById(userId)
 
   const totalNights = formData.totalRent / rentloc.price
+  const newId = new mongoose.Types.ObjectId();
 
   approver.requests.push({
+    _id:newId,
     location: locId,
     reqBy: {
       username: formData.username,
@@ -113,6 +116,7 @@ module.exports.reqToRent = async (req, res) => {
   await approver.save()
 
   renter.bookings.push({
+    _id:newId,
     locDetails: {
       title: rentloc.title,
       images: [...rentloc.images],
