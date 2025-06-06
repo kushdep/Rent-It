@@ -42,20 +42,29 @@ module.exports.logoutUser = (req, res, next) => {
     });
 }
 
-module.exports.getMyBookings = async (req, res) => {
-    res.render('rentloc/renters')
+module.exports.getMyBookingsData = async (req, res) => {
+    const { id, reqState } = req.params
+    const buttonValues = ['Pending', 'Approved', 'Declined']
+    const activeBtn = reqState
+    const role = 'my-bookings'
+
+    const user = await User.findById(id)
+    const bookLoc = user.bookings.filter(e => e.bookingStatus === reqState)
+
+    res.render('rentloc/bookings', { buttonValues, id, bookLoc, activeBtn, role })
 }
 
 module.exports.getRentersData = async (req, res) => {
     const { id, reqState } = req.params
     const buttonValues = ['Pending', 'Approved', 'Declined']
     const activeBtn = reqState
+    const role = 'renters'
+
 
     const user = await User.findById(id).populate('requests.location')
     const reqLoc = user.requests.filter(e => e.reqStatus === reqState)
-    console.log(reqLoc)
 
-    res.render('rentloc/renters', { buttonValues, id, activeBtn, reqLoc })
+    res.render('rentloc/renters', { buttonValues, id, activeBtn, reqLoc, role })
 }
 
 module.exports.setReqLocStts = async (req, res) => {
@@ -64,20 +73,18 @@ module.exports.setReqLocStts = async (req, res) => {
     await User.findOneAndUpdate(
         { _id: id },
         { $set: { "requests.$[elem].reqStatus": reqStts } },
-        { arrayFilters: [{ "elem._id": reqId }] }
+        { arrayFilters: [{ "elem._id": reqId }] },
+        { returnNewDocument: true }
     )
 
-    const renterEmail = req.query.email
-    const renter = await User.find({ email: renterEmail })
-
     await User.findOneAndUpdate(
-        { _id: renter._id },
+        { email: req.query.email },
         { $set: { "bookings.$[elem].bookingStatus": reqStts } },
-        { arrayFilters: [{ "elem._id": reqId }] }
+        { arrayFilters: [{ "elem._id": reqId }] },
+        { returnNewDocument: true }
     )
 
     reqStts === 'Approved' ? req.flash('success', `Successfully Approved request`) : req.flash('error', 'Successfully Declined the  Request!');
-
     res.redirect(`/${id}/renters/Pending`)
 }
 

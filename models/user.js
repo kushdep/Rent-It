@@ -65,8 +65,8 @@ const UserSchema = new Schema({
                 }
             },
             bookingDates: {
-                start: { type: Date },
-                end: { type: Date }
+                start: { type: String },
+                end: { type: String }
             },
             bookingStatus: {
                 type: String,

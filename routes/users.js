@@ -15,16 +15,15 @@ router.route('/login')
     )
 
 
-router.route('/:id/renters/:reqState')
-        .get(  isLoggedIn,
-          userController.getRentersData)
-router.route('/:id/renters/:reqId/:reqStts')
-            .get(isLoggedIn,
-                userController.setReqLocStts
-            )
 
-router.route('/:id/my-bookings')
-        .get(isLoggedIn,userController.getMyBookings)
+router.route('/:id/my-bookings/:reqState')
+    .get(isLoggedIn, CatchAsync(userController.getMyBookingsData))
+
+router.route('/:id/renters/:reqState')
+    .get(isLoggedIn, CatchAsync(userController.getRentersData))
+
+router.route('/:id/renters/:reqId/:reqStts')
+    .get(isLoggedIn, CatchAsync(userController.setReqLocStts))
 
 router.get('/logout', isLoggedIn, userController.logoutUser);
 

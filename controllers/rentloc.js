@@ -96,7 +96,7 @@ module.exports.reqToRent = async (req, res) => {
   const newId = new mongoose.Types.ObjectId();
 
   approver.requests.push({
-    _id:newId,
+    _id: newId,
     location: locId,
     reqBy: {
       username: formData.username,
@@ -116,7 +116,7 @@ module.exports.reqToRent = async (req, res) => {
   await approver.save()
 
   renter.bookings.push({
-    _id:newId,
+    _id: newId,
     locDetails: {
       title: rentloc.title,
       images: [...rentloc.images],
@@ -134,7 +134,7 @@ module.exports.reqToRent = async (req, res) => {
     },
     bookingStatus: 'Pending',
     rentDetails: {
-      totalNights: formData.totalNights,
+      totalNights: totalNights,
       totalRent: formData.totalRent
     }
   })
