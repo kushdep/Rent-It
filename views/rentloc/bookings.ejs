@@ -79,6 +79,22 @@
                     >$<%= loc.rentDetails.totalRent %></span
                   >
                 </div>
+                <%if(loc.bookingStatus === 'Pending'){%>
+                <div class="d-flex gap-2 mt-3">
+                    <form
+                      action="/<%=id%>/my-bookings/<%=loc._id%>/delete-booking?_method=DELETE&email=<%=loc.locOwnerDetails.email%>"
+                      method="POST"
+                      class="d-inline"
+                    >
+                      <button
+                      class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm d-flex align-items-center"
+                      style="font-size: 1.08rem; text-decoration: none"
+                      >
+                        Delete Request
+                      </button>
+                    </form>
+                </div>
+                <%}%>
               </div>
             </div>
           </div>

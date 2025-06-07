@@ -15,6 +15,8 @@ router.route('/login')
     )
 
 
+router.route('/:id/my-bookings/:bookId/delete-booking')
+        .delete(isLoggedIn,CatchAsync(userController.delReqLoc))
 
 router.route('/:id/my-bookings/:reqState')
     .get(isLoggedIn, CatchAsync(userController.getMyBookingsData))
@@ -24,6 +26,8 @@ router.route('/:id/renters/:reqState')
 
 router.route('/:id/renters/:reqId/:reqStts')
     .get(isLoggedIn, CatchAsync(userController.setReqLocStts))
+
+    
 
 router.get('/logout', isLoggedIn, userController.logoutUser);
 

@@ -88,4 +88,23 @@ module.exports.setReqLocStts = async (req, res) => {
     res.redirect(`/${id}/renters/Pending`)
 }
 
+module.exports.delReqLoc = async (req, res) => {
+    const { id, bookId } = req.params
 
+    const data = await User.findByIdAndUpdate(
+        id,
+        { $pull: { bookings: { _id: bookId } } }
+    )
+
+    console.log(data)
+
+    const value = await User.findOneAndUpdate(
+        {email:req.query.email},
+        {$pull:{requests:{_id:bookId}}}
+    )
+
+    console.log(value)
+    
+    req.flash('error', `Successfully Deleted request`)
+    res.send('DELETED')
+}
