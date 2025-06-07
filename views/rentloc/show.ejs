@@ -45,15 +45,30 @@
             </button>
             <% } %>
           </div>
-          <h3
-            class="card-title mb-2 text-success fw-bold"
-            style="letter-spacing: 1px"
-          >
-            <%= rentPlace.title %>
-          </h3>
-          <p class="card-text text-muted mb-3"><%= rentPlace.description %></p>
+          <div class="d-flex flex flex-column">
+            <div class="">
+              <h2
+                class="card-title mb-2 text-success fw-bold"
+                style="letter-spacing: 1px"
+              >
+                <%= rentPlace.title %>
+              </h2>
+              <%if(currentUser && !(rentPlace.author.equals(currentUser))){%>
+              <div>
+                <a
+                  class="btn btn-outline-success btn-sm rounded-pill px-4 fw-semibold"
+                  href="/rentloc/<%= rentPlace.id %>/rent-it/<%=currentUser._id%>"
+                  >Rent-IT</a
+                >
+              </div>
+              <%}%>
+            </div>
+          </div>
         </div>
         <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <p class="card-text text-muted mb-3"><%= rentPlace.description %></p>
+          </li>
           <li class="list-group-item">
             <i class="bi bi-geo-alt-fill text-danger me-1"></i>
             <strong>Location:</strong> <%= rentPlace.location %>
@@ -84,28 +99,18 @@
             </button>
           </form>
         </div>
-        <% } %> <%if(currentUser){%>
-        <div>
-          <a
-            class="btn btn-info btn-sm rounded-pill px-4 fw-semibold"
-            href="/rentloc/<%= rentPlace.id %>/rent-it/<%=currentUser._id%>"
-            >Rent-IT</a
-          >
-        </div>
         <%}%>
+
         <div class="card-footer text-muted text-center">
           <small><i class="bi bi-clock me-1"></i>Posted 2 Days Ago</small>
         </div>
       </div>
     </div>
     <div class="col-12 col-lg-5 d-flex flex-column gap-5">
-      <div ><%- include('calendar') %></div>
+      <div><%- include('calendar') %></div>
       <div>
-        <% if(currentUser && userId!==null )
-        { %> <%- include('rentIt') %> 
-        <% }else { %>
-           <%- include('review') %> 
-        <% } %>
+        <% if(currentUser && userId!==null ) { %> <%- include('rentIt') %> <%
+        }else { %> <%- include('review') %> <% } %>
       </div>
     </div>
   </div>

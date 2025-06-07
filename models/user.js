@@ -70,7 +70,7 @@ const UserSchema = new Schema({
             },
             bookingStatus: {
                 type: String,
-                enum: ['Pending', 'Approved', 'Rejected']
+                enum: ['Pending', 'Approved', 'Declined']
             },
             rentDetails: {
                 totalNights: Number,

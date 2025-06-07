@@ -106,5 +106,5 @@ module.exports.delReqLoc = async (req, res) => {
     console.log(value)
     
     req.flash('error', `Successfully Deleted request`)
-    res.send('DELETED')
+    res.redirect(`/${id}/my-bookings/Pending`)
 }
