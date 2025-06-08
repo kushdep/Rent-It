@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar");
+
+    const highlightDates = <% - JSON.stringify(someDates) %>;
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         themeSystem: "bootstrap5",
@@ -11,6 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
             center: "title",
             right: "next",
         },
+        dayCellClassNames: function (arg) {
+            console.log("called for" + JSON.stringify(arg))
+            const dateStr = arg.date.toLocaleDateString('en-CA');
+            return highlightDates.includes(dateStr) ? ["highlight-day"] : [];
+        }
+
     });
     calendar.render();
 });
