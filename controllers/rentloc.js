@@ -34,7 +34,7 @@ module.exports.showRentalLoc = async (req, res) => {
     req.flash('error', "Cannot Get Rental Location")
     return res.redirect('/rentloc')
   }
-  const bookedDates =["2025-06-09", "2025-06-10"]
+  const bookedDates =["2025-06-19", "2025-07-10"]
   res.render("rentloc/show", { rentPlace, userId,bookedDates });
 }
 
@@ -80,7 +80,7 @@ module.exports.rentItForm = async (req, res) => {
   const { locId, userId } = req.params
   const rentPlace = await RentLoc.findById(locId).populate("author")
   const bookingDates = Utils.getDates()
-  const bookedDates =["2025-06-09", "2025-06-10"]
+  const bookedDates =["2025-06-19", "2025-06-10"]
   res.render('rentloc/show', { rentPlace, userId, bookingDates,bookedDates })
 }
 

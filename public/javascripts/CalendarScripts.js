@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar");
 
-    const highlightDates = <% - JSON.stringify(someDates) %>;
+    console.log(calendarEl.dataset)
+    const highlightDates = JSON.parse(calendarEl.dataset.highlightDates);
+    console.log(highlightDates)
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
