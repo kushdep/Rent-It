@@ -34,7 +34,7 @@ module.exports.showRentalLoc = async (req, res) => {
     req.flash('error', "Cannot Get Rental Location")
     return res.redirect('/rentloc')
   }
-  const bookedDates =["2025-06-19", "2025-07-10"]
+  const bookedDates =rentPlace.bookedDates
   res.render("rentloc/show", { rentPlace, userId,bookedDates });
 }
 

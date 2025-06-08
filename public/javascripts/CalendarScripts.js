@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dayCellClassNames: function (arg) {
             console.log("called for" + JSON.stringify(arg))
             const dateStr = arg.date.toLocaleDateString('en-CA');
-            return highlightDates.includes(dateStr) ? ["highlight-day"] : [];
+            return highlightDates.includes(dateStr) ? ["unavailable"] : ["available"];
         }
 
     });

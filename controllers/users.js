@@ -1,5 +1,6 @@
 const passport = require('passport')
 const User = require('../models/user')
+const RentLoc = require('../models/rentloc')
 
 module.exports.registerForm = async (req, res) => {
     res.render('users/register')
@@ -69,8 +70,10 @@ module.exports.getRentersData = async (req, res) => {
 
 module.exports.setReqLocStts = async (req, res) => {
     const { id, reqId, reqStts } = req.params
+    
+    console.log(req.params)
 
-    await User.findOneAndUpdate(
+    const updatedDoc = await User.findOneAndUpdate(
         { _id: id },
         { $set: { "requests.$[elem].reqStatus": reqStts } },
         { arrayFilters: [{ "elem._id": reqId }] },
@@ -83,6 +86,18 @@ module.exports.setReqLocStts = async (req, res) => {
         { arrayFilters: [{ "elem._id": reqId }] },
         { returnNewDocument: true }
     )
+    console.log(updatedDoc)
+    if(reqStts==='Approved'){
+        const request = updatedDoc.requests.find(e => e._id.toString() === reqId);
+        const locId = request ? request.location : null;
+        console.log(locId);
+        const loc = await RentLoc.findById(locId);
+        if (loc && request) {
+            loc.bookedDates.push(request.reqForDates.start, request.reqForDates.end);
+            await loc.save();
+            console.log(loc.bookedDates);
+        }
+    }
 
     reqStts === 'Approved' ? req.flash('success', `Successfully Approved request`) : req.flash('error', 'Successfully Declined the  Request!');
     res.redirect(`/${id}/renters/Pending`)
