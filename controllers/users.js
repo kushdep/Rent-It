@@ -70,9 +70,6 @@ module.exports.getRentersData = async (req, res) => {
 
 module.exports.setReqLocStts = async (req, res) => {
     const { id, reqId, reqStts } = req.params
-    
-    console.log(req.params)
-
     const updatedDoc = await User.findOneAndUpdate(
         { _id: id },
         { $set: { "requests.$[elem].reqStatus": reqStts } },
@@ -86,17 +83,36 @@ module.exports.setReqLocStts = async (req, res) => {
         { arrayFilters: [{ "elem._id": reqId }] },
         { returnNewDocument: true }
     )
-    console.log(updatedDoc)
-    if(reqStts==='Approved'){
+
+    if (reqStts === 'Approved') {
         const request = updatedDoc.requests.find(e => e._id.toString() === reqId);
+        console.log("request "+request)
         const locId = request ? request.location : null;
-        console.log(locId);
+        console.log("locId "+locId)
         const loc = await RentLoc.findById(locId);
-        if (loc && request) {
-            loc.bookedDates.push(request.reqForDates.start, request.reqForDates.end);
-            await loc.save();
-            console.log(loc.bookedDates);
+        console.log("loc "+loc)
+        
+        const from = new Date(request.reqForDates.start)
+        console.log("from "+from)
+        let fromEpoch = from.getTime()
+        console.log("fromEpoch "+fromEpoch)
+        const nights = request.rentDetails.totalNights - 1
+        console.log("nights "+nights)
+        
+        loc.bookedDates.push(fromEpoch.toISOString().split(0, 10))
+        await loc.save();
+        console.log("bookingdates "+loc.bookedDates)
+        
+        for (let i = 0; i < nights; i++) {
+            fromEpoch += 24 * 60 * 60 * 1000
+            console.log("fromEpoch i "+fromEpoch)
+            let date = new Date(fromEpoch)
+            console.log("date i "+date+i)
+            loc.bookedDates.push(date.toISOString().split(0, 10))
         }
+        
+        await loc.save();
+        console.log("bookingdates "+loc.bookedDates)
     }
 
     reqStts === 'Approved' ? req.flash('success', `Successfully Approved request`) : req.flash('error', 'Successfully Declined the  Request!');
@@ -111,15 +127,13 @@ module.exports.delReqLoc = async (req, res) => {
         { $pull: { bookings: { _id: bookId } } }
     )
 
-    console.log(data)
 
     const value = await User.findOneAndUpdate(
-        {email:req.query.email},
-        {$pull:{requests:{_id:bookId}}}
+        { email: req.query.email },
+        { $pull: { requests: { _id: bookId } } }
     )
 
-    console.log(value)
-    
+
     req.flash('error', `Successfully Deleted request`)
     res.redirect(`/${id}/my-bookings/Pending`)
 }

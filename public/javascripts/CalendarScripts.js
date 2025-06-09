@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar");
 
-    console.log(calendarEl.dataset)
     const highlightDates = JSON.parse(calendarEl.dataset.highlightDates);
-    console.log(highlightDates)
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
@@ -17,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
             right: "next",
         },
         dayCellClassNames: function (arg) {
-            console.log("called for" + JSON.stringify(arg))
             const dateStr = arg.date.toLocaleDateString('en-CA');
             return highlightDates.includes(dateStr) ? ["unavailable"] : ["available"];
         }
