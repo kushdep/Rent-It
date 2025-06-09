@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const RentlocSchema = new Schema({
   title: String,
-  bookedDates:[String],
+  bookedDates: [String],
   images: [
     {
       url: String,

@@ -86,33 +86,23 @@ module.exports.setReqLocStts = async (req, res) => {
 
     if (reqStts === 'Approved') {
         const request = updatedDoc.requests.find(e => e._id.toString() === reqId);
-        console.log("request "+request)
         const locId = request ? request.location : null;
-        console.log("locId "+locId)
         const loc = await RentLoc.findById(locId);
-        console.log("loc "+loc)
-        
+
         const from = new Date(request.reqForDates.start)
-        console.log("from "+from)
         let fromEpoch = from.getTime()
-        console.log("fromEpoch "+fromEpoch)
-        const nights = request.rentDetails.totalNights - 1
-        console.log("nights "+nights)
-        
-        loc.bookedDates.push(fromEpoch.toISOString().split(0, 10))
-        await loc.save();
-        console.log("bookingdates "+loc.bookedDates)
-        
+        const nights = request.rentDetails.totalNights
+        loc.bookedDates.push(request.reqForDates.start)
         for (let i = 0; i < nights; i++) {
-            fromEpoch += 24 * 60 * 60 * 1000
-            console.log("fromEpoch i "+fromEpoch)
+            fromEpoch = fromEpoch + 24 * 60 * 60 * 1000
+            console.log("day "+(i+2)+" fromEpoch  " + fromEpoch)
+
             let date = new Date(fromEpoch)
-            console.log("date i "+date+i)
-            loc.bookedDates.push(date.toISOString().split(0, 10))
+            let val = date.toISOString().slice(0, 10)
+            loc.bookedDates.push(val)
         }
-        
+
         await loc.save();
-        console.log("bookingdates "+loc.bookedDates)
     }
 
     reqStts === 'Approved' ? req.flash('success', `Successfully Approved request`) : req.flash('error', 'Successfully Declined the  Request!');
