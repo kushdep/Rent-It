@@ -85,7 +85,7 @@ module.exports.rentItForm = async (req, res) => {
 module.exports.reqToRent = async (req, res) => {
   const { locId, userId } = req.params
   const formData = req.body
-
+  console.log(formData)
   const rentloc = await RentLoc.findById(locId);
 
   const approverId = rentloc.author

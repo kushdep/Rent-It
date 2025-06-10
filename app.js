@@ -84,19 +84,3 @@ app.use((err, req, res, next) => {
   if (!err.message) err.message = "Something Went Wrong";
   res.status(status).render("error", { err });
 });
-
-
-// const date = new Date("2025-06-09");
-// let epochTime = date.getTime();
-// console.log(epochTime);
-
-// for(let i=0;i<4;i++){
-//     epochTime=epochTime+24*60*60*1000
-//     let epch = new Date(epochTime)
-//     console.log(epch.toISOString());
-// }
-
-
-// const date2 = new Date("2025-06-11");
-// const epochTime2 = Math.floor(date2.getTime() / 1000);
-// console.log(epochTime2);

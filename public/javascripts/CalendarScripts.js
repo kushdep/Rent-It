@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var calendarEl = document.getElementById("calendar");
+    let calendarEl = document.getElementById("calendar");
 
     const highlightDates = JSON.parse(calendarEl.dataset.highlightDates);
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    let calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         themeSystem: "bootstrap5",
         height: 300,
@@ -21,4 +21,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
     calendar.render();
-});
+}); 

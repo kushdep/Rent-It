@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+ <script src="/javascripts/rentIt.js"></script>
+
 <div class="col-12">
   <div class="container" style="min-height: 80vh">
     <div class="p-4 rounded shadow bg-light">
@@ -45,11 +49,13 @@
              <label class="form-label fw-semibold" for="From">From:</label>
             <input
               class="form-control"
-              type="date"
+              type="text"
               id="from"
               name="From"
-              min=<%=bookingDates.minDate%>
-              max=<%=bookingDates.maxDate%>
+              data-min-date="<%= JSON.stringify(bookingDates.minDate)%>"
+              data-max-date="<%= JSON.stringify(bookingDates.maxDate)%>"
+              placeholder="YYY-MM-DD"
+              readonly
               required
             />
           </div>
@@ -58,11 +64,12 @@
             <label class="form-label fw-semibold" for="To">To:</label>
             <input
               class="form-control"
-              type="date"
+              type="text"
               id="To"
               name="To"
-              min=<%=bookingDates.minDate%>
-              max=<%=bookingDates.maxDate%>
+              data-rent-price="<%= JSON.stringify(rentPlace.price) %>"
+              placeholder="YYY-MM-DD"
+              readonly
               required
             />
           </div>
@@ -95,38 +102,7 @@
   </div>
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const fromInput = document.getElementById("from");
-    const toInput = document.getElementById("To");
 
-    fromInput.addEventListener("change", function () {
-      toInput.min = fromInput.value;
-      if (toInput.value < fromInput.value) {
-        toInput.value = "";
-      }
-    });
-  });
 
-  function getTotalNights(dateFrom, dateTo) {
-    const from = new Date(dateFrom);
-    const to = new Date(dateTo);
-    const diffTime = to - from;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays
-  }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const fromInput = document.getElementById("from");
-    const toInput = document.getElementById("To");
-    const priceInputEle = document.getElementById('rentPrice');
 
-    function updatePrice() {
-      const totalNights = getTotalNights(fromInput.value, toInput.value);
-      priceInputEle.value = totalNights * <%= rentPlace.price %>;
-    }
-
-    fromInput.addEventListener("change", updatePrice);
-    toInput.addEventListener("change", updatePrice);
-  });
-</script>
