@@ -16,7 +16,11 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         dayCellClassNames: function (arg) {
             const dateStr = arg.date.toLocaleDateString('en-CA');
-            return highlightDates.includes(dateStr) ? ["unavailable"] : ["available"];
+            const dateEpch = new Date(dateStr)
+            const todayEpch = Date.now()
+            console.log(dateStr)
+            console.log(dateEpch.getTime())
+            return todayEpch <= dateEpch.getTime() ? (highlightDates.includes(dateStr) ? ["unavailable"] : ["available"]) : '';
         }
 
     });
