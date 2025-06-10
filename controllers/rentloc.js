@@ -104,8 +104,8 @@ module.exports.reqToRent = async (req, res) => {
       idProof: formData.idProof
     },
     reqForDates: {
-      start: formData.From,
-      end: formData.To
+      start: formData.rentDates.slice(0,10),
+      end: formData.rentDates.slice(14,24)
     },
     rentDetails: {
       totalNights: totalNights,
@@ -129,8 +129,8 @@ module.exports.reqToRent = async (req, res) => {
       email: approver.email
     },
     bookingDates: {
-      start: formData.From,
-      end: formData.To
+      start: formData.rentDates.slice(0,10),
+      end: formData.rentDates.slice(14,24)
     },
     bookingStatus: 'Pending',
     rentDetails: {

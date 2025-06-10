@@ -45,30 +45,17 @@
         </div>
 
         <div class="d-flex flex-row gap-4 mb-3">
-          <div class="d-flex flex-column" style="width: 50%;">
-             <label class="form-label fw-semibold" for="From">From:</label>
+          <div class="d-flex flex-column" style="width: 80%;">
+             <label class="form-label fw-semibold" for="rentDates">Renting Dates:</label>
             <input
               class="form-control"
               type="text"
-              id="from"
-              name="From"
+              id="rentDates"
+              name="rentDates"
               data-min-date="<%= JSON.stringify(bookingDates.minDate)%>"
               data-max-date="<%= JSON.stringify(bookingDates.maxDate)%>"
-              placeholder="YYY-MM-DD"
-              readonly
-              required
-            />
-          </div>
-  
-          <div class="d-flex flex-column" style="width: 50%;">
-            <label class="form-label fw-semibold" for="To">To:</label>
-            <input
-              class="form-control"
-              type="text"
-              id="To"
-              name="To"
               data-rent-price="<%= JSON.stringify(rentPlace.price) %>"
-              placeholder="YYY-MM-DD"
+              placeholder="Select Dates"
               readonly
               required
             />
