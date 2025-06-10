@@ -85,37 +85,66 @@ module.exports.rentItForm = async (req, res) => {
 module.exports.reqToRent = async (req, res) => {
   const { locId, userId } = req.params
   const formData = req.body
-  console.log(formData)
+
+  console.log("formData " + JSON.stringify(formData))
+  
   const rentloc = await RentLoc.findById(locId);
 
+  console.log("rentLc " + rentloc)
+
   const approverId = rentloc.author
+
+  console.log("approverId " + approverId)
+
   const approver = await User.findById(approverId)
+
+  console.log("approver " + approver)
+
   const renter = await User.findById(userId)
 
-  const totalNights = formData.totalRent / rentloc.price
-  const newId = new mongoose.Types.ObjectId();
+  console.log("renter " + renter)
 
-  approver.requests.push({
+  const totalNights = formData.totalRent / rentloc.price
+  console.log("totalNIghts " + totalNights)
+  let start = "", end = "";
+  if (formData.rentDates && formData.rentDates.includes(" to ")) {
+    [start, end] = formData.rentDates.split(" to ");
+  } else {
+    start = formData.rentDates.slice(0, 10);
+    end = formData.rentDates.slice(14, 24);
+  }
+  console.log("start "+start+"end "+end)
+  const newId = new mongoose.Types.ObjectId();
+  console.log("newId " + newId)
+
+
+  const requ = {
     _id: newId,
-    location: locId,
+    location: rentloc._id,
     reqBy: {
       username: formData.username,
       email: formData.email,
       idProof: formData.idProof
     },
     reqForDates: {
-      start: formData.rentDates.slice(0,10),
-      end: formData.rentDates.slice(14,24)
+      start,
+      end
     },
     rentDetails: {
       totalNights: totalNights,
-      totalRent: formData.totalRent,
+      totalRent: Number(formData.totalRent),
     },
     reqStatus: 'Pending'
-  })
-  await approver.save()
+  }
+  console.log(requ)
+  approver.requests.push(requ)
+  console.log("before saving")
 
-  renter.bookings.push({
+  await approver.save()
+  
+  console.log("after saving")
+
+  const appro = {
     _id: newId,
     locDetails: {
       title: rentloc.title,
@@ -129,15 +158,17 @@ module.exports.reqToRent = async (req, res) => {
       email: approver.email
     },
     bookingDates: {
-      start: formData.rentDates.slice(0,10),
-      end: formData.rentDates.slice(14,24)
+      start,
+      end
     },
     bookingStatus: 'Pending',
     rentDetails: {
       totalNights: totalNights,
-      totalRent: formData.totalRent
+      totalRent: Number(formData.totalRent)
     }
-  })
+  }
+  console.log(appro)
+  renter.bookings.push(appro)
   await renter.save()
 
   req.flash('success', `Successfully made a Request to ${approver.username}`)

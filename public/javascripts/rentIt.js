@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const bookedDates = ["2025-06-10", "2025-06-15", "2025-06-18"];
     const rentDatesInput = document.getElementById("rentDates");
+    const bookedDates = JSON.parse(rentDatesInput.dataset.bookedDates);
+    console.log(bookedDates)
     const rentPrice = JSON.parse(rentDatesInput.dataset.rentPrice)
 
     const maxDate = JSON.parse(rentDatesInput.dataset.maxDate)
